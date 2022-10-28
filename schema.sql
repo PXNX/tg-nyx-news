@@ -1,7 +1,9 @@
+drop table posts;
+
 create table posts
 (
 
-    source_channel int,
+    source_channel bigint,
     source_id      int,
     post_id        int,
 
