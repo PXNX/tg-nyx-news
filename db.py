@@ -1,4 +1,5 @@
 import dataclasses
+from typing import Optional
 
 import psycopg2
 from psycopg2.extras import NamedTupleCursor
@@ -14,12 +15,13 @@ class Post:
     source_channel: int
     source_id: int
     post_id: int
+    reply_id: Optional[int]
 
 
 def insert_post(post: Post):
     with conn.cursor() as c:
-        res = c.execute("insert into posts(source_channel, source_id, post_id) values (%s,%s,%s);",
-                        (post.source_channel, post.source_id, post.post_id))
+        res = c.execute("insert into posts(source_channel, source_id, post_id, reply_id) values (%s,%s,%s,%s);",
+                        (post.source_channel, post.source_id, post.post_id, post.reply_id))
         conn.commit()
         print(res)
 
@@ -27,6 +29,16 @@ def insert_post(post: Post):
 def get_post(source_channel: int, source_id: int):
     with conn.cursor() as c:
         c.execute("select post_id from  posts where source_channel = %s and source_id = %s;",
+                  (source_channel, source_id))
+        res = c.fetchone()
+        print(res)
+        if res is not None:
+            return res[0]
+        else:
+            return res
+def get_reply_id(source_channel: int, source_id: int):
+    with conn.cursor() as c:
+        c.execute("select reply_id from  posts where source_channel = %s and source_id = %s;",
                   (source_channel, source_id))
         res = c.fetchone()
         print(res)
