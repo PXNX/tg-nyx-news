@@ -10,14 +10,17 @@ from config import SOURCES, POST_CHANNEL, OWN_SOURCES, api_id, api_hash
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
 from db import insert_post, Post, get_post
 
-client = TelegramClient("remove_inactive", api_id, api_hash)
+client = TelegramClient("nyx-news", api_id, api_hash)
 client.parse_mode = 'html'
 
 LOG_FILENAME = r'C:\Users\nyx\PycharmProjects\tg-nyx-news\log.out'
 logging.basicConfig(
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO, filename=LOG_FILENAME
+    format="%(asctime)s -  %(levelname)s - [%(filename)s:%(lineno)s - %(funcName)20s()]: %(message)s ",
+    level=logging.INFO, filename=LOG_FILENAME
 )
-#log = logging.getLogger(__name__)
+
+
+# log = logging.getLogger(__name__)
 
 
 def get_reply(event):
@@ -34,7 +37,7 @@ def debloat(event):
 
     if SOURCES[event.chat_id].bloat is not None:
         bloats = [
-            e.replace("/", r"\/").replace(".", r"\.").replace("+", r"\+").replace("|", r"\|")
+            e.replace("/", r"\/").replace(".", r"\.").replace("+", r"\+").replace("|", r"\|").replace(" ", r"\s*")
             for e in SOURCES[event.chat_id].bloat
         ]  # .replace("<strong>","").replace("</strong>","")
         print("bloats ::::", bloats, event.text)
@@ -43,7 +46,7 @@ def debloat(event):
                 text = re.sub(m, '', text)
             #   print("replace::::::::::", text, "pattern ::::", m)
 
-    #  print("debloat ::::", text)
+    print("debloat ::::", text)
     return text
 
 
@@ -51,7 +54,7 @@ def sanitize(text: str):
     cleaned_empty = re.sub(TAG_EMPTY, '', text)
 
     g = re.search(TAG_TRAILING, cleaned_empty)
-    #  print("GROUP::::::::::::::::::::", cleaned_empty, g)
+    print("GROUP::::::::::::::::::::", cleaned_empty, g)
 
     if g is not None:
         for m in g.groups():
@@ -59,11 +62,10 @@ def sanitize(text: str):
             print("MATCH ::::::::::::::", cleaned_empty)
 
     sub_text = re.sub(HASHTAG, '', cleaned_empty)
-    #   print("subbbbbbbb ", sub_text)
+    print("subbbbbbbb ", sub_text)
 
     sub_text = sub_text.replace("<strong>", "<b>").replace("</strong>", "</b>").replace("<em>", "<i>").replace("</em>",
                                                                                                                "</i>")
-
     print("sanitized ::::", sub_text)
     return sub_text
 
@@ -112,13 +114,13 @@ async def post_text(event: NewMessage.Event):
     text = translate(event)
     reply_id = get_reply(event)
 
-    if type(event.original_update) is UpdateNewChannelMessage and event.original_update.message.grouped_id is None:
+    if type(event.original_update) is UpdateNewChannelMessage and event.original_update.message.grouped_id is None and type(
+            event.media) is not MessageMediaPoll:
         print("send")
 
         try:
             if (event.photo is not None or event.video is not None or event.document is not None) and type(
-                    event.media) is not MessageMediaWebPage and type(
-                event.media) is not MessageMediaPoll :  # filter for media type???
+                    event.media) is not MessageMediaWebPage:  # filter for media type???
                 msg = await client.send_file(POST_CHANNEL, event.message.media, caption=text, reply_to=reply_id)
             else:
                 msg = await client.send_message(POST_CHANNEL, text, link_preview=False, reply_to=reply_id)

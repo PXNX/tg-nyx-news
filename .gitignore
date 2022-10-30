@@ -139,3 +139,5 @@ dmypy.json
 cython_debug/
 
 log.out
+nyx-news.session-journal
+nyx-news.session
