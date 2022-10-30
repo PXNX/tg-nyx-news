@@ -19,7 +19,7 @@ class Source:
     bias: str = ''
 
 
-CHANNELS = {
+OWN_SOURCES = {
     # -1001839268196:Source('Test'),  # Test
     # 1317941240:Source('MN-Bot',  # MN-bot
     -1001391125365: Source('Test2', [
@@ -32,13 +32,17 @@ CHANNELS = {
     -1001240262412: Source('Militär-News🔰', [
         '🔰 Abonniere @MilitaerNews\n🔰 Diskutiere im @MNChat'
     ]),
+}
+
+SOURCES = {
+    **OWN_SOURCES,
 
     # Ukrainian
     -1001452778151: Source('Krugozor', [
         '<a href="https://t.me/krugozor_news">Кругозор</a>'
     ], '🇺🇦'),
     -1001619608359: Source('TiskSnip', bias='🇺🇦'),
-    -1001594428146: Source('WerochnaRada', bias='🇺🇦'),
+    -1001594428146: Source('Werochna Rada', bias='🇺🇦'),
     -1001469021333: Source('DeepState', bias='🇺🇦'),
     -1001355310059: Source('EspresoTV', bias='🇺🇦'),
     -1001759230769: Source('Bayraktar', [
@@ -53,17 +57,18 @@ CHANNELS = {
     -1001011817559: Source('Militarniy', [
         '@milinua'
     ], '🇺🇦'),
-    -1001414210176: Source('FirstDivision', bias='🇺🇦'),
-    -1001767825089: Source("VerteidigungsministeriumUA", bias='🇺🇦'),
-    -1001606301574: Source("VerteidigungsnachrichtendienstUA", bias='🇺🇦'),
-    -1001223955273: Source("LuftwaffeUA", bias='🇺🇦'),
-    -1001686012322: Source("OberbefehlshaberZSU", bias='🇺🇦'),
-    -101296487842: Source('OperativuZSU', bias='🇺🇦'),
+    -1001414210176: Source('First Division', bias='🇺🇦'),
+    -1001767825089: Source("Verteidigungsministerium UA", bias='🇺🇦'),
+    -1001606301574: Source("Verteidigungsnachrichtendienst UA", bias='🇺🇦'),
+    -1001223955273: Source("Luftwaffe UA", bias='🇺🇦'),
+    -1001686012322: Source("Oberbefehlshaber ZSU", bias='🇺🇦'),
+    -101296487842: Source('Operativu ZSU', bias='🇺🇦'),
     -1001721372338: Source("SSO", bias='🇺🇦'),
     -1001470200990: Source("Suspilne", bias='🇺🇦'),
+    -1001641260594: Source("Monitor", bias='🇺🇦'),
 
     # Russian
-    -1001141171940: Source('Kadyrow', bias='🇷🇺'),
+    -1001141171940: Source('Ramzan Kadyrow', bias='🇷🇺'),
     -1001076431027: Source('ItsDonezk', [
         '<a href="https://t.me/joinchat/QCkIs9PWI4jWPgNy">Подписаться</a>  |  <a href="https://t.me/EtoDonetsk_bot">Предложить новость</a>'
     ], '🇷🇺'),
@@ -71,14 +76,14 @@ CHANNELS = {
     -1001149896996: Source('Interfax', [
         '@interfaxonline'
     ], '🇷🇺'),
-    -1001543896043: Source('RussiaMedwed', [
+    -1001543896043: Source('Russia Medwed', [
         'Вся ЖЕСТЬ СВО у нас в резерве 👉 <a href="https://t.me/+bSe6VmuHMlthYWEy">Смотреть</a>.'
     ], '🇷🇺'),
     -1001135021433: Source('WarGonzo', [
         '@wargonzo\n\n*наш проект существует на средства подписчиков, карта для помощи\n4279 3806 9842 9521',
         '@wargonzo\n\n<em>*наш проект существует на средства подписчиков, карта для помощи</em>\n4279 3806 9842 9521'
     ], '🇷🇺'),
-    -1001708761316: Source('PrjamoyEfir',
+    -1001708761316: Source('Prjamoy Efir',
                            ['<a href="https://t.me/+jQvaOFH1zhAzMzIy">Прямой эфир - подписаться</a>'],
                            '🇷🇺'),
     -1001382288937: Source('BalkanSniper', [
@@ -90,18 +95,27 @@ CHANNELS = {
     -1001326223284: Source('Rybar', [
         '@rybar\n\n<em>*Поддержать нас: </em><code>4377 7278 0407 7977</code>'
     ], '🇷🇺'),
-    -1001730870551: Source('RSOTM', [
+    -1001730870551: Source('Reverse Side of the Medal', [
         'Война История Оружие\nПодписаться на канал (https://t.me/historywarweaponmain)'
     ], '🇷🇺'),
 
-    -1001393505038: Source('KarpatskaSich', bias='🇷🇺'),
+    -1001393505038: Source('Karpatska Sich', bias='🇷🇺'),
     -1001093357968: Source('Epoddubny', bias='🇷🇺'),
-    -1001205641526: Source('WaffenUndGeschichte', bias='🇷🇺'),
-    -1001318802260: Source('AnatolijShtirlitz', bias='🇷🇺'),
-    -1001736828635: Source('Slavyangrad', bias='🇷🇺'),
-    -1001355540894: Source('RVoenkor', bias='🇷🇺'),
-    -1001082968817: Source('VerteidigungsministeriumRU', bias='🇷🇺'),
-    -1001074511071: Source('AußenministeriumRU', bias='🇷🇺'),
+    -1001205641526: Source('Krieg Geschichte Waffen', bias='🇷🇺'),
+    -1001318802260: Source('Anatolij Shtirlitz', bias='🇷🇺'),
+    -1001736828635: Source('Slavyangrad',
+                           ['@Slavyangrad\nJoin SLG 🔺 Intelligence Briefings, Strategy and Analysis, Expert Community',
+                            '@Slavyangrad / SLG Spetsnaz Detachment (Inna)\nJoin SLG 🔺 Intelligence Briefings, Strategy and Analysis, Expert Community'],
+                           bias='🇷🇺'),
+    -1001355540894: Source('RVoenkor', [
+        '<a href="<strong>t.me/RVvoenkor</strong>"><strong>t.me/RVvoenkor</strong></a>'
+    ], bias='🇷🇺'),
+    -1001082968817: Source('Verteidigungsministerium RU', bias='🇷🇺'),
+    -1001074511071: Source('Außenministerium RU', bias='🇷🇺'),
+    -1001584480250: Source('Troyka', bias='🇷🇺'),
+    -1001672277532: Source('RIA Novosti', bias='🇷🇺'),
+    -1001050820672: Source('TASS', bias='🇷🇺'),
+    -1001101806611: Source('Boris Rozhin', bias='🇷🇺'),
 
     # Polish
     -1001577023152: Source('Syrenka', [
@@ -111,19 +125,24 @@ CHANNELS = {
 
     # Azeri
     -1001261746950: Source('AAF', [
-        '<a href="http://t.me/military_az"><strong>AАF</strong></a><strong> | </strong><a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"><strong>Чат24/7</strong></a><strong> |</strong><a href="https://t.me/AslanAslanoff"><strong>Сотрудничество</strong></a>'
+        r'<a href="http://t.me/military_az"><strong>AАF</strong></a><strong>\s*|\s*</strong><a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"><strong>Чат24/7</strong></a><strong>\s*|\s*</strong><a href="https://t.me/AslanAslanoff"><strong>Сотрудничество</strong></a>'
     ], '🇦🇿'),
+
+    # Armenia
+    - 1001430291550: Source('Wirtschaftsministerium RA', bias='🇦🇲'),
 
     # Unclear
     -1001658917464: Source('KhersonNonFake', [
         '</strong><strong>@kherson_non_fake</strong>',
         'Точную инфу срочно сюда \n👉 </strong><strong>@non_fake_ks</strong>'
     ], '🇺🇦'),
-    -1001731636769: Source('Batalion «Monako»', [
+    -1001731636769: Source('Batallion Monaco', [
         '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>'
     ]),
-    -1001602838096: Source('KronikaBpla'),
+    -1001602838096: Source('Chronik UAV'),
     -1001689244469: Source('UMF'),
-    -101253415143: Source('MariuopolNow'),
+    -1001253415143: Source('MariuopolNow'),
+    -1001393134139: Source('Middle-east in Ukrainian'),
+    - 1001175084215: Source('Ukraina.ru', bias='🇷🇺'),
 
 }

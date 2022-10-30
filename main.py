@@ -5,11 +5,11 @@ from telethon import TelegramClient, events
 from telethon.events import NewMessage, MessageEdited
 from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage
 
-import config
+from config import SOURCES, POST_CHANNEL, OWN_SOURCES, api_id, api_hash
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
-from db import insert_post, Post, get_post, get_reply_id
+from db import insert_post, Post, get_post
 
-client = TelegramClient("remove_inactive", config.api_id, config.api_hash)
+client = TelegramClient("remove_inactive", api_id, api_hash)
 client.parse_mode = 'html'
 
 
@@ -25,10 +25,10 @@ def get_reply(event):
 def debloat(event):
     text = event.text
 
-    if config.CHANNELS[event.chat_id].bloat is not None:
+    if SOURCES[event.chat_id].bloat is not None:
         bloats = [
             e.replace("/", r"\/").replace(".", r"\.").replace("+", r"\+").replace("|", r"\|")
-            for e in config.CHANNELS[event.chat_id].bloat
+            for e in SOURCES[event.chat_id].bloat
         ]  # .replace("<strong>","").replace("</strong>","")
         print("bloats ::::", bloats, event.text)
         if len(bloats) != 0:
@@ -63,7 +63,7 @@ def sanitize(text: str):
 
 def translate(event):
     if event.original_update.message.fwd_from is not None and event.original_update.message.fwd_from.from_id in list(
-            config.CHANNELS.keys()):
+            SOURCES.keys()):
         return
 
     sub_text = sanitize(debloat(event))
@@ -76,20 +76,24 @@ def translate(event):
         translated_text = re.sub(PLACEHOLDER, emoji, translated_text, 1)
 
     print("translated_text :::::", translated_text)
-    return f"{translated_text}\n\n<i>Quelle: <a href='tg://privatepost?channel={str(event.chat_id)[4:]}&post={event.original_update.message.id}'>{config.CHANNELS[event.chat_id].channel_name}{config.CHANNELS[event.chat_id].bias}</a></i>\n\n👉🏼 Folge @NYX_News für mehr!"
+    return f"{translated_text}\n\n<i>Quelle: <a href='tg://privatepost?channel={str(event.chat_id)[4:]}&post={event.original_update.message.id}'>{SOURCES[event.chat_id].channel_name} {SOURCES[event.chat_id].bias}</a></i>\n\n👉🏼 Folge @NYX_News für mehr!"
 
 
-@client.on(events.Album(chats=list(config.CHANNELS.keys())))
+@client.on(events.Album(chats=list(SOURCES.keys())))
 async def handle_album(event):  # craft a new message and send
     print("album ------------------- ", event.stringify())
     text = translate(event)
     reply_id = get_reply(event)
 
-    await client.send_message(config.POST_CHANNEL, file=event.messages, message=text, reply_to=reply_id)
-    # ## or forward it directly # await event.forward_to(chat)
+    try:
+
+        msg = await client.send_message(POST_CHANNEL, file=event.messages, message=text, reply_to=reply_id)
+        insert_post(Post(event.chat_id, event.original_update.message[0].id, msg.id, reply_id))
+    except Exception as e:
+        print(f"‼️ Error when sending Album: {e}")
 
 
-@client.on(events.NewMessage(chats=list(config.CHANNELS.keys()), incoming=True))
+@client.on(events.NewMessage(chats=list(SOURCES.keys()), incoming=True))
 @client.on(events.NewMessage(chats=-1001391125365, outgoing=True))
 async def post_text(event: NewMessage.Event):
     print(event.raw_text)
@@ -101,22 +105,24 @@ async def post_text(event: NewMessage.Event):
     if type(event.original_update) is UpdateNewChannelMessage:
         print("send")
 
-        if (
-                event.photo is not None or event.video is not None) and type(
-            event.media) is not MessageMediaWebPage:  # filter for media type???
-            msg = await client.send_file(config.POST_CHANNEL, event.message.media, caption=text, reply_to=reply_id)
-        else:
-            msg = await client.send_message(config.POST_CHANNEL, text, link_preview=False, reply_to=reply_id)
+        try:
+            if (event.photo is not None or event.video is not None) and type(
+                    event.media) is not MessageMediaWebPage and event.original_update.group_id is None:  # filter for media type???
+                msg = await client.send_file(POST_CHANNEL, event.message.media, caption=text, reply_to=reply_id)
+            else:
+                msg = await client.send_message(POST_CHANNEL, text, link_preview=False, reply_to=reply_id)
 
-        print(msg)
+            print(msg)
 
-        insert_post(Post(event.chat_id, event.message.id, msg.id, reply_id))
+            insert_post(Post(event.chat_id, event.message.id, msg.id, reply_id))
+        except Exception as e:
+            print(f"‼️ Error when sending Message: {e}")
 
     print("---end")
 
 
-@client.on(events.MessageEdited(chats=list(config.CHANNELS.keys()), incoming=True))
-@client.on(events.MessageEdited(chats=-1001391125365, outgoing=True))
+@client.on(events.MessageEdited(chats=list(SOURCES.keys()), incoming=True))
+@client.on(events.MessageEdited(chats=list(OWN_SOURCES.keys()), outgoing=True))
 async def edit_text(event: MessageEdited.Event):
     print("edit--------", event.raw_text)
 
@@ -132,8 +138,11 @@ async def edit_text(event: MessageEdited.Event):
         if post_id is None:
             return await post_text(event)
 
-        msg = await client.edit_message(config.POST_CHANNEL, post_id, text, link_preview=False)
-        print(msg)
+        try:
+            msg = await client.edit_message(POST_CHANNEL, post_id, text, link_preview=False)
+            print(msg)
+        except Exception as e:
+            print(f"‼️ Error when editing Message: {e}")
 
     # insert_post(Post(event.chat_id, event.message.id, msg.id))
 
@@ -141,5 +150,5 @@ async def edit_text(event: MessageEdited.Event):
 
 
 client.start()
-print("-------------- start")
+print("### STARTED ###")
 client.run_until_disconnected()
