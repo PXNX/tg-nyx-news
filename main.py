@@ -1,9 +1,10 @@
+import logging
 import re
 
 from deep_translator import GoogleTranslator
 from telethon import TelegramClient, events
 from telethon.events import NewMessage, MessageEdited
-from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage
+from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage, MessageMediaPoll
 
 from config import SOURCES, POST_CHANNEL, OWN_SOURCES, api_id, api_hash
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
@@ -11,6 +12,12 @@ from db import insert_post, Post, get_post
 
 client = TelegramClient("remove_inactive", api_id, api_hash)
 client.parse_mode = 'html'
+
+LOG_FILENAME = r'C:\Users\nyx\PycharmProjects\tg-nyx-news\log.out'
+logging.basicConfig(
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s", level=logging.INFO, filename=LOG_FILENAME
+)
+#log = logging.getLogger(__name__)
 
 
 def get_reply(event):
@@ -34,9 +41,9 @@ def debloat(event):
         if len(bloats) != 0:
             for m in bloats:
                 text = re.sub(m, '', text)
-                print("replace::::::::::", text, "pattern ::::", m)
+            #   print("replace::::::::::", text, "pattern ::::", m)
 
-    print("debloat ::::", text)
+    #  print("debloat ::::", text)
     return text
 
 
@@ -44,7 +51,7 @@ def sanitize(text: str):
     cleaned_empty = re.sub(TAG_EMPTY, '', text)
 
     g = re.search(TAG_TRAILING, cleaned_empty)
-    print("GROUP::::::::::::::::::::", cleaned_empty, g)
+    #  print("GROUP::::::::::::::::::::", cleaned_empty, g)
 
     if g is not None:
         for m in g.groups():
@@ -52,7 +59,7 @@ def sanitize(text: str):
             print("MATCH ::::::::::::::", cleaned_empty)
 
     sub_text = re.sub(HASHTAG, '', cleaned_empty)
-    print("subbbbbbbb ", sub_text)
+    #   print("subbbbbbbb ", sub_text)
 
     sub_text = sub_text.replace("<strong>", "<b>").replace("</strong>", "</b>").replace("<em>", "<i>").replace("</em>",
                                                                                                                "</i>")
@@ -92,22 +99,26 @@ async def handle_album(event):  # craft a new message and send
     except Exception as e:
         print(f"‼️ Error when sending Album: {e}")
 
+    print("--- end ALBUM")
+
 
 @client.on(events.NewMessage(chats=list(SOURCES.keys()), incoming=True))
 @client.on(events.NewMessage(chats=-1001391125365, outgoing=True))
 async def post_text(event: NewMessage.Event):
-    print(event.raw_text)
-    print(event.stringify())
+    #   print(event.raw_text)
+    print("--------- post TEXT:::", event.stringify())
+    logging.debug("--------- post TEXT:::", event.stringify())
 
     text = translate(event)
     reply_id = get_reply(event)
 
-    if type(event.original_update) is UpdateNewChannelMessage:
+    if type(event.original_update) is UpdateNewChannelMessage and event.original_update.message.grouped_id is None:
         print("send")
 
         try:
-            if (event.photo is not None or event.video is not None) and type(
-                    event.media) is not MessageMediaWebPage and event.original_update.group_id is None:  # filter for media type???
+            if (event.photo is not None or event.video is not None or event.document is not None) and type(
+                    event.media) is not MessageMediaWebPage and type(
+                event.media) is not MessageMediaPoll :  # filter for media type???
                 msg = await client.send_file(POST_CHANNEL, event.message.media, caption=text, reply_to=reply_id)
             else:
                 msg = await client.send_message(POST_CHANNEL, text, link_preview=False, reply_to=reply_id)
@@ -117,8 +128,9 @@ async def post_text(event: NewMessage.Event):
             insert_post(Post(event.chat_id, event.message.id, msg.id, reply_id))
         except Exception as e:
             print(f"‼️ Error when sending Message: {e}")
+            logging.exception("‼️ Error when sending Message", e)
 
-    print("---end")
+    print("---end SEND")
 
 
 @client.on(events.MessageEdited(chats=list(SOURCES.keys()), incoming=True))
@@ -126,29 +138,32 @@ async def post_text(event: NewMessage.Event):
 async def edit_text(event: MessageEdited.Event):
     print("edit--------", event.raw_text)
 
-    print(event.stringify())
-
-    text = translate(event)
+    #  print(event.stringify())
 
     if type(event.original_update) is UpdateEditChannelMessage:
-        print("update")
+        #   print("update")
         post_id = get_post(event.chat_id, event.message.id)
-        print("post to update :::::::::::", post_id, type(post_id))
+        #  print("post to update :::::::::::", post_id, type(post_id))
+        print("--- edit ::: post_id :::::", post_id)
 
         if post_id is None:
             return await post_text(event)
 
         try:
+            text = translate(event)
             msg = await client.edit_message(POST_CHANNEL, post_id, text, link_preview=False)
             print(msg)
         except Exception as e:
-            print(f"‼️ Error when editing Message: {e}")
+            if e.__class__.__name__ != "MessageNotModifiedError":
+                print(f"‼️ Error when editing Message: {e}")
+                logging.exception("‼️ Error when editing Message", e)
 
     # insert_post(Post(event.chat_id, event.message.id, msg.id))
 
-    print("---end")
+    print("---end EDIT")
 
 
 client.start()
 print("### STARTED ###")
+logging.info("### STARTED ###")
 client.run_until_disconnected()
