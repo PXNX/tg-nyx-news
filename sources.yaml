@@ -1,0 +1,39 @@
+#Test
+#   -1001526741474:Source('MNChat'),  # MNChat
+# -1001839268196:Source('Test'),  # Test
+# 1317941240:Source('MN-Bot',  # MN-bot
+
+# Ukrainian
+1452778151:
+  name: Krugozor
+  bloat:
+    - <a href="https://t.me/krugozor_news">Кругозор</a>
+  username: krugozor_news
+  bias: 🇺🇦
+1619608359:
+  name: TiskSnip
+  bias: 🇺🇦
+
+1413275904:
+  name: NEXTA
+  bloat:
+    - 'Прислать нам информацию: @nextamail_bot или info@nexta.tv\n\nПоддержать работу нашей редакции можно через\nPayPal: https://paypal.me/nexta\nPatreon: https://patreon.com/nexta_tv\nИли другие варианты (криптовалюта): https://nexta.tv/support\n\nНаш YouTube\nhttps://www.youtube.com/nexta_tv\nhttps://www.youtube.com/nexta_live\n\nНаш Twitter (In       - English)\nhttps://twitter.com/nexta_tv\n\nНаш TikTok\nwww.tiktok.com/@nexta_tv\n\nШойгу пошёл против Путина / Ну и новости!\nhttps://youtu.be/6T40_Ll1mMs\n\nФСБ готовит госпереворот / Ну и новости!\nhttps://youtu.be/aIiUeuTxJJs'
+  bias: 🇺🇦
+1011817559:
+  name: Militarniy
+  bloat: '@milinua'
+  username: milinua
+  bias: 🇺🇦
+
+
+# Russian
+1260622817:
+  name: Readovka
+  bias: 🇷🇺
+  username: readovkanews
+1149896996:
+  name: Interfax
+  bloat:
+    - '@interfaxonline'
+  bias: 🇷🇺
+  username: interfaxonline

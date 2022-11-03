@@ -6,12 +6,14 @@ from telethon import TelegramClient, events
 from telethon.events import NewMessage, MessageEdited
 from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage, MessageMediaPoll
 
-from config import SOURCES, POST_CHANNEL, OWN_SOURCES, api_id, api_hash
+from config import POST_CHANNEL,  api_id, api_hash
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
 from db import insert_post, Post, get_post
+from source import sources, source_ids, get_sources
 
 client = TelegramClient("nyx-news", api_id, api_hash)
 client.parse_mode = 'html'
+get_sources()
 
 LOG_FILENAME = r'C:\Users\nyx\PycharmProjects\tg-nyx-news\log.out'
 logging.basicConfig(
@@ -35,10 +37,12 @@ def get_reply(event):
 def debloat(event):
     text = event.text
 
-    if SOURCES[event.chat_id].bloat is not None:
+    channel = sources[event.chat_id]
+
+    if channel.bloat is not None:
         bloats = [
             e.replace("/", r"\/").replace(".", r"\.").replace("+", r"\+").replace("|", r"\|").replace(" ", r"\s*")
-            for e in SOURCES[event.chat_id].bloat
+            for e in channel.bloat
         ]  # .replace("<strong>","").replace("</strong>","")
         print("bloats ::::", bloats, event.text)
         if len(bloats) != 0:
@@ -71,9 +75,10 @@ def sanitize(text: str):
 
 
 def translate(event):
-    if event.original_update.message.fwd_from is not None and event.original_update.message.fwd_from.from_id in list(
-            SOURCES.keys()):
+    if event.original_update.message.fwd_from is not None and event.original_update.message.fwd_from.from_id in   source_ids:
         return
+
+    channel = sources[event.chat_id]
 
     sub_text = sanitize(debloat(event))
 
@@ -85,10 +90,16 @@ def translate(event):
         translated_text = re.sub(PLACEHOLDER, emoji, translated_text, 1)
 
     print("translated_text :::::", translated_text)
-    return f"{translated_text}\n\n<i>Quelle: <a href='tg://privatepost?channel={str(event.chat_id)[4:]}&post={event.original_update.message.id}'>{SOURCES[event.chat_id].channel_name} {SOURCES[event.chat_id].bias}</a></i>\n\n👉🏼 Folge @NYX_News für mehr!"
+
+    if channel.username is None:
+        link = f"tg://privatepost?channel={str(event.chat_id)[4:]}&post="
+    else:
+        link =f"https://t.me/{channel.username}/"
+
+    return f"{translated_text}\n\n<i>Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias}</a></i>\n\n👉🏼 Folge @NYX_News für mehr!"
 
 
-@client.on(events.Album(chats=list(SOURCES.keys())))
+@client.on(events.Album(chats=source_ids))
 async def handle_album(event):  # craft a new message and send
     print("album ------------------- ", event.stringify())
     text = translate(event)
@@ -104,7 +115,7 @@ async def handle_album(event):  # craft a new message and send
     print("--- end ALBUM")
 
 
-@client.on(events.NewMessage(chats=list(SOURCES.keys()), incoming=True))
+@client.on(events.NewMessage(chats=source_ids, incoming=True))
 @client.on(events.NewMessage(chats=-1001391125365, outgoing=True))
 async def post_text(event: NewMessage.Event):
     #   print(event.raw_text)
@@ -135,8 +146,8 @@ async def post_text(event: NewMessage.Event):
     print("---end SEND")
 
 
-@client.on(events.MessageEdited(chats=list(SOURCES.keys()), incoming=True))
-@client.on(events.MessageEdited(chats=list(OWN_SOURCES.keys()), outgoing=True))
+@client.on(events.MessageEdited(chats=source_ids, incoming=True))
+#@client.on(events.MessageEdited(chats=list(OWN_SOURCES.keys()), outgoing=True))
 async def edit_text(event: MessageEdited.Event):
     print("edit--------", event.raw_text)
 
