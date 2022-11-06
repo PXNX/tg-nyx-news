@@ -8,7 +8,7 @@ from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage,
 
 from config import POST_CHANNEL,  api_id, api_hash
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
-from db import insert_post, Post, get_post
+from db import insert_post, Post, get_post, get_media_id, conn
 from source import sources, source_ids, get_sources
 
 client = TelegramClient("nyx-news", api_id, api_hash)
@@ -96,7 +96,13 @@ def translate(event):
     else:
         link =f"https://t.me/{channel.username}/"
 
-    return f"{translated_text}\n\n<i>Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias}</a></i>\n\n👉🏼 Folge @NYX_News für mehr!"
+    if channel.invite is not None:
+        inv_link = f" | <a href='{channel.invite}'>🔗Einladungslink</a>"
+    else:
+        inv_link = ""
+
+
+    return f"{translated_text}\n\n<i>Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias}</a>{inv_link}</i>\n\n👉🏼 Folge @NYX_News für mehr!"
 
 
 @client.on(events.Album(chats=source_ids))
@@ -115,12 +121,29 @@ async def handle_album(event):  # craft a new message and send
     print("--- end ALBUM")
 
 
+def get_media(event):
+    m = event.original_update.message.media
+
+    if m is None:
+        return
+
+    if m.photo is not None:
+        return m.photo.id
+    elif m.video[0] is not None:
+        return m.video[0].id
+    else:
+        return None
+
 @client.on(events.NewMessage(chats=source_ids, incoming=True))
 @client.on(events.NewMessage(chats=-1001391125365, outgoing=True))
 async def post_text(event: NewMessage.Event):
     #   print(event.raw_text)
     print("--------- post TEXT:::", event.stringify())
     logging.debug("--------- post TEXT:::", event.stringify())
+
+    if get_media(event) is not None and get_media_id(event.chat_id, event.original_update.message.id) == get_media(event):
+        print("---------\n\n\n A L R E A D Y  -- P R E S E N T\n\n\n---------")
+        return
 
     text = translate(event)
     reply_id = get_reply(event)
@@ -177,6 +200,9 @@ async def edit_text(event: MessageEdited.Event):
 
 
 client.start()
+
+
+
 print("### STARTED ###")
 logging.info("### STARTED ###")
 client.run_until_disconnected()

@@ -13,7 +13,6 @@
 1619608359:
   name: TiskSnip
   bias: 🇺🇦
-
 1413275904:
   name: NEXTA
   bloat:
@@ -21,10 +20,42 @@
   bias: 🇺🇦
 1011817559:
   name: Militarniy
-  bloat: '@milinua'
+  bloat:
+    - '@milinua'
   username: milinua
   bias: 🇺🇦
-
+1469021333:
+  name: DeepState
+  bloat:
+    - '<a href="https://deepstateua.shop/">Магазин</a>🛑<a href="https://deepstateua.com/">Блог</a>🛑<a href="https://deepstatemap.live/">Мапа</a>🛑<a href="http://t.me/newsDeepStatebot">Написати нам</a>🛑<a href="https://help.deepstateua.com/">Звіти</a>🛑<a href="https://t.me/help_deepstateua">ЗСУHelp</a>'
+  username: DeepStateUA
+  bias: 🇺🇦
+1201459971:
+  name: Rysnya
+  username: rysnya200
+  bias: 🇺🇦
+1470200990:
+  name: Suspilne
+  username: suspilnenews
+  bias: 🇺🇦
+1393505038:
+  name: Karpatska Sich
+  username: karpatska_sich
+  bias: 🇺🇦
+1727181613:
+  name: NMFTE
+  username: NMFTE
+  bias: 🇺🇦
+1673614390:
+  name: Taras Hryhorovych
+  username: taraspovidomlyae
+  bias: 🇺🇦
+1731636769:
+  name: Batallion Monaco
+  invite: https://t.me/+un4Mel3_naU1ZjZi
+  bloat:
+    - <a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>
+  bias: 🇺🇦
 
 # Russian
 1260622817:
@@ -37,3 +68,73 @@
     - '@interfaxonline'
   bias: 🇷🇺
   username: interfaxonline
+1708761316:
+  name: Prjamoy Efir
+  invite: https://t.me/+jQvaOFH1zhAzMzIy
+  bloat:
+    - <a href="https://t.me/+jQvaOFH1zhAzMzIy">Прямой эфир - подписаться</a>
+  bias: 🇷🇺
+1099737840:
+  name: Rusvesna
+  username: rusvesnasu
+  bloat:
+    - <a href="<strong>t.me/rusvesnasu</strong>"><strong>t.me/rusvesnasu</strong></a>
+  bias: 🇷🇺
+1498939244:
+  name: Voenacher
+  username: voenacher
+  bias: 🇷🇺
+1152463236:
+  name: Vorposte
+  username: vorposte
+  bloat:
+    - '@vorposte'
+  bias: 🇷🇺
+1074354585:
+  name: Milinfolive
+  username: milinfolive
+  bloat:
+    - '@milinfolive'
+  bias: 🇷🇺
+1577023152:
+  name: Syrenka
+  username: pl_syrenka
+  bloat:
+    - '@pl_syrenka — Польша не заграница'
+  bias: 🇵🇱🇷🇺
+1558764025:
+  name: Letit Kalibr
+  invite: https://t.me/+5q81cPjA5eE4ZDQy
+  bloat:
+    - '👁 Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
+    - '👁 Смотри 🚀 Л<a href="https://t.me/+5q81cPjA5eE4ZDQy">етит_Калибр</a>'
+  bias: 🇷🇺
+1824081223:
+  name: Für das Mutterland
+  username: MOPOZaRodinu
+  bloat:
+    - https://t.me/MOPOZaRodinu
+  bias: 🇷🇺
+1627480627:
+  name: Cyberspec News
+  username: CyberspecNews
+  bias: 🇷🇺
+1218410161:
+  name: Dambiev
+  username: ChDambiev
+  bias: 🇷🇺
+1205641526:
+  name: Krieg Geschichte Waffen
+  username: historywarweaponmain
+  bloat:
+    - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
+  bias: 🇷🇺
+
+
+#Azeri
+1261746950:
+  name: AAF
+  username: military_az
+  bloat:
+    - '<a href="http://t.me/military_az"> <strong> AАF </strong> </a> <strong> | </strong> <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> <strong> Чат24/7 </strong> </a> <strong> | </strong> <a href="https://t.me/AslanAslanoff"> <strong> Сотрудничество </strong> </a>'
+  bias: 🇦🇿

@@ -10,7 +10,7 @@ class Source:
     bloat: Optional[list[str]]
     bias: str
     username: Optional[str]
-    invite_link: Optional[str]
+    invite: Optional[str]
 
     @classmethod
     def from_yaml(cls, data):
@@ -19,7 +19,7 @@ class Source:
             bloat=data.get('bloat', None),
             bias=data.get('bias', ''),
             username=data.get('username', None),
-            invite_link=data.get('invite', None)
+            invite=data.get('invite', None)
         )
 
 sources = dict()
