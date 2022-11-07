@@ -15,7 +15,7 @@ client = TelegramClient("nyx-news", api_id, api_hash)
 client.parse_mode = 'html'
 get_sources()
 
-LOG_FILENAME = r'C:\Users\nyx\PycharmProjects\tg-nyx-news\log.out'
+LOG_FILENAME = r'C:\Users\Pentex\PycharmProjects\tg-nyx-news\log.out'
 logging.basicConfig(
     format="%(asctime)s -  %(levelname)s - [%(filename)s:%(lineno)s - %(funcName)20s()]: %(message)s ",
     level=logging.INFO, filename=LOG_FILENAME
