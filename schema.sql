@@ -1,5 +1,5 @@
 drop table posts;
-ALTER TABLE posts ADD COLUMN  media_id bigint;
+--ALTER TABLE posts ADD COLUMN  media_id bigint;
 
 create table sources
 (
@@ -12,7 +12,7 @@ create table sources
     channel_name varchar(128) not null,
     display_name varchar(128),
     invite varchar(20),
-    username varchar(32).
+    username varchar(32),
 
     primary key (channel_id)
 );
