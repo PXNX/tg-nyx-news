@@ -8,7 +8,7 @@ from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage,
 
 from config import CHANNEL_NEWS, api_id, api_hash, CHANNEL_BACKUP, CHANNEL_INFO
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
-from db import insert_post, Post, get_post, get_media_id, conn
+from db import insert_post, Post, get_post
 from source import sources, source_ids, get_sources
 
 client = TelegramClient("nyx-news2", api_id, api_hash)
@@ -74,7 +74,7 @@ def sanitize(text: str):
     return sub_text
 
 
-async def translate(event):
+async def translate(event, backup_id: int):
     if event.original_update.message.fwd_from is not None and event.original_update.message.fwd_from.from_id in source_ids:
         return
 
@@ -100,31 +100,29 @@ async def translate(event):
         inv_link = f" | <a href='{channel.invite}'>🔗Einladungslink</a>"
     else:
         inv_link = ""
+    backup = f"| <a href='https://t.me/nn_backup/{backup_id}'> 💾 </a>"
+    source = f"Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias} </a>"
+    footer = "👉🏼 Folge @NYX_News für mehr!"
 
-    print("forwardedEVENT", type(event))
-    forward = ""
-    if type(event.original_update) is UpdateNewChannelMessage and type(event) is NewMessage.Event and type(
-            event) is not Album.Event:
-        print("-------------------\n\n\nforwardedmsg!!", event.message.stringify())
-        ffmsg = await event.forward_to(CHANNEL_BACKUP)
-        print("------------ ffmsg", ffmsg)
-        # fmsg = await client.forward_messages(CHANNEL_BACKUP, event.message)
-        #  print("forwarded msg", fmsg[0].stringify())
-        forward = f"| <a href='https://t.me/nn_backup/{ffmsg.id}'>💾 Backup</a>"
-
-    return f"""{translated_text}\n\n<i>Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias}</a>{inv_link}</i>{forward}\n\n👉🏼 Folge @NYX_News für mehr!"""
+    return f"{translated_text}\n\n{source}{backup}\n\n{footer}"
 
 
 @client.on(events.Album(chats=source_ids))
 async def handle_album(event):  # craft a new message and send
     print("album ------------------- ", event.stringify())
-    text = await translate(event)
+
+    backup_id = (await event.forward_to(CHANNEL_BACKUP)).id
+
+    text = await translate(event, backup_id)
     reply_id = get_reply(event)
+
+    for m in event.messages:
+        logging.info(f"media ::::::::::::::::::::::::::::::: ALBUM ::: {m.media.photo.id}")
 
     try:
 
         msg = await client.send_message(CHANNEL_NEWS, file=event.messages, message=text, reply_to=reply_id)
-        insert_post(Post(event.chat_id, event.original_update.message[0].id, msg.id, reply_id))
+        insert_post(Post(event.chat_id, event.original_update.message[0].id, msg.id, backup_id, reply_id, None))
     except Exception as e:
         print(f"‼️ Error when sending Album: {e}")
 
@@ -150,25 +148,27 @@ async def post_info_album(event: Album.Event):
     msg = await event.forward_to(CHANNEL_NEWS)
     await msg[0].pin()
 
-@client.on(events.NewMessage(chats=CHANNEL_INFO, incoming=True, func= lambda a: a.grouped_id is None))
+
+@client.on(events.NewMessage(chats=CHANNEL_INFO, incoming=True, func=lambda a: a.grouped_id is None))
 async def post_info(event: NewMessage.Event):
-    msg = await event.forward_to(CHANNEL_NEWS )
+    msg = await event.forward_to(CHANNEL_NEWS)
     msg.pin()
 
 
-@client.on(events.NewMessage(chats=source_ids, incoming=True, func= lambda a: a.grouped_id is None))
-#@client.on(events.NewMessage(chats=-1001391125365, outgoing=True, func= lambda a: a.grouped_id is None))
+@client.on(events.NewMessage(chats=source_ids, incoming=True, func=lambda a: a.grouped_id is None))
+# @client.on(events.NewMessage(chats=-1001391125365, outgoing=True, func= lambda a: a.grouped_id is None))
 async def post_text(event: NewMessage.Event):
     #   print(event.raw_text)
     print("--------- post TEXT:::", event.stringify())
     logging.debug("--------- post TEXT:::", event.stringify())
 
-    if get_media(event) is not None and get_media_id(event.chat_id, event.original_update.message.id) == get_media(
-            event):
-        print("---------\n\n\n A L R E A D Y  -- P R E S E N T\n\n\n---------")
-        return
+    # if get_media(event) is not None and get_media_id(event.chat_id, event.original_update.message.id) == get_media(
+    #      event):
+    #   print("---------\n\n\n A L R E A D Y  -- P R E S E N T\n\n\n---------")
+    #   return
 
-    text = await translate(event)
+    backup_id = (await event.forward_to(CHANNEL_BACKUP)).id
+    text = await translate(event, backup_id)
     reply_id = get_reply(event)
 
     if type(event.original_update) is UpdateNewChannelMessage and event.original_update.message.grouped_id is None and type(
@@ -176,15 +176,21 @@ async def post_text(event: NewMessage.Event):
         print("send")
 
         try:
-            if (event.photo is not None or event.video is not None or event.document is not None) and type(
-                    event.media) is not MessageMediaWebPage:  # filter for media type???
+            if event.message.media is not None and (
+                    event.message.media.photo is not None or event.message.media.video is not None or event.message.media.document is not None) and type(
+                event.media) is not MessageMediaWebPage:  # filter for media type???
+                print(
+                    f"media ::::::::::::::::::::::::::::::: {get_media(event)}")
                 msg = await client.send_file(CHANNEL_NEWS, event.message.media, caption=text, reply_to=reply_id)
+                insert_post(Post(event.chat_id, event.message.id, msg.id, backup_id, reply_id, get_media(event)))
             else:
+
                 msg = await client.send_message(CHANNEL_NEWS, text, link_preview=False, reply_to=reply_id)
+                insert_post(Post(event.chat_id, event.message.id, msg.id, backup_id, reply_id, None))
 
             print(msg)
 
-            insert_post(Post(event.chat_id, event.message.id, msg.id, reply_id, None))
+
         except Exception as e:
             print(f"‼️ Error when sending Message: {e}")
             logging.exception("‼️ Error when sending Message", e)

@@ -22,8 +22,11 @@ class Source:
             invite=data.get('invite', None)
         )
 
+
 sources = dict()
 source_ids = list()
+
+
 def get_sources():
     with open('sources.yaml', 'rb') as stream:
         data_loaded = yaml.load(stream, Loader=yaml.Loader)

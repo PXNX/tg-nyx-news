@@ -49,10 +49,10 @@ def insert_post(post: Post):
         print(res)
 
 
-def get_post(source_channel: int, source_id: int):
+def get_post(channel_id: int, source_id: int):
     with conn.cursor() as c:
-        c.execute("select post_id from  posts where source_channel = %s and source_id = %s;",
-                  (source_channel, source_id))
+        c.execute("select post_id from  posts where channel_id= %s and source_id = %s;",
+                  (channel_id, source_id))
         res = c.fetchone()
         print(res)
         if res is not None:
@@ -61,10 +61,10 @@ def get_post(source_channel: int, source_id: int):
             return res
 
 
-def get_reply_id(source_channel: int, source_id: int):
+def get_reply_id(channel_id: int, source_id: int):
     with conn.cursor() as c:
-        c.execute("select reply_id from  posts where source_channel = %s and source_id = %s;",
-                  (source_channel, source_id))
+        c.execute("select reply_id from  posts where channel_id = %s and source_id = %s;",
+                  (channel_id, source_id))
         res = c.fetchone()
         print(res)
         if res is not None:
@@ -73,10 +73,10 @@ def get_reply_id(source_channel: int, source_id: int):
             return res
 
 
-def get_media_id(source_channel: int, source_id: int):
+def get_media_id(channel_id: int, source_id: int):
     with conn.cursor() as c:
-        c.execute("select media_id from  posts where source_channel = %s and source_id = %s;",
-                  (source_channel, source_id))
+        c.execute("select media_id from  posts where channel_id = %s and source_id = %s;",
+                  (channel_id, source_id))
         res = c.fetchone()
         print(res)
         if res is not None:

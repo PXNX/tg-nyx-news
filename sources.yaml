@@ -51,15 +51,17 @@
   name: NMFTE
   username: NMFTE
   bias: 🇺🇦
-1673614390:
-  name: Taras Hryhorovych
-  username: taraspovidomlyae
-  bias: 🇺🇦
+#1673614390:
+#  name: Taras Hryhorovych
+ # username: taraspovidomlyae
+#  bias: 🇺🇦
 1731636769:
   name: Batallion Monaco
   invite: https://t.me/+un4Mel3_naU1ZjZi
   bloat:
-    - <a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>
+    - '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>'
+    - '<a href="https://t.me/monakoadvertising">З питань реклами</a>'
+    - '<strong>@monakoadvertising</strong>'
   bias: 🇺🇦
 
 # Russian
@@ -114,12 +116,12 @@
     - '👁 Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
     - '👁 Смотри 🚀 Л<a href="https://t.me/+5q81cPjA5eE4ZDQy">етит_Калибр</a>'
   bias: 🇷🇺
-1824081223:
-  name: Für das Mutterland
-  username: MOPOZaRodinu
-  bloat:
-    - https://t.me/MOPOZaRodinu
-  bias: 🇷🇺
+#1824081223:
+ # name: Für das Mutterland
+#  username: MOPOZaRodinu
+#  bloat:
+ #   - https://t.me/MOPOZaRodinu
+#  bias: 🇷🇺
 1627480627:
   name: Cyberspec News
   username: CyberspecNews
@@ -128,12 +130,12 @@
   name: Dambiev
   username: ChDambiev
   bias: 🇷🇺
-1205641526:
-  name: Krieg Geschichte Waffen
-  username: historywarweaponmain
-  bloat:
-    - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
-  bias: 🇷🇺
+#1205641526:
+#  name: Krieg Geschichte Waffen
+#  username: historywarweaponmain
+ # bloat:
+ #   - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
+ # bias: 🇷🇺
 
 
 #Azeri
