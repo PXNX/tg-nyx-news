@@ -141,3 +141,5 @@ cython_debug/
 log.out
 nyx-news.session-journal
 nyx-news.session
+nyx-news2.session
+nyxnews.csv

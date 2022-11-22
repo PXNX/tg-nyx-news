@@ -27,6 +27,7 @@
   name: Militarniy
   bloat:
     - '@milinua'
+    - 'Близький Схід українською\n<a href="https://t.me/MiddleEastinUkrainian">https://t.me/MiddleEastinUkrainian</a>'
   username: milinua
   bias: 🇺🇦
 1469021333:
@@ -51,9 +52,9 @@
   name: NMFTE
   username: NMFTE
   bias: 🇺🇦
-#1673614390:
-#  name: Taras Hryhorovych
- # username: taraspovidomlyae
+  #1673614390:
+  #  name: Taras Hryhorovych
+  # username: taraspovidomlyae
 #  bias: 🇺🇦
 1731636769:
   name: Batallion Monaco
@@ -87,10 +88,10 @@
   bloat:
     - <a href="<strong>t.me/rusvesnasu</strong>"><strong>t.me/rusvesnasu</strong></a>
   bias: 🇷🇺
-1498939244:
-  name: Voenacher
-  username: voenacher
-  bias: 🇷🇺
+#1498939244:
+#  name: Voenacher
+#  username: voenacher
+#  bias: 🇷🇺
 1152463236:
   name: Vorposte
   username: vorposte
@@ -110,17 +111,20 @@
     - '@pl_syrenka — Польша не заграница'
   bias: 🇵🇱🇷🇺
 1558764025:
-  name: Letit Kalibr
+  name: 'Летит Калибр'
+  display: Letit Kalibr
   invite: https://t.me/+5q81cPjA5eE4ZDQy
   bloat:
+    - - '<em>👁</em> Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
     - '👁 Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
     - '👁 Смотри 🚀 Л<a href="https://t.me/+5q81cPjA5eE4ZDQy">етит_Калибр</a>'
+    - 'Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
   bias: 🇷🇺
-#1824081223:
- # name: Für das Mutterland
-#  username: MOPOZaRodinu
-#  bloat:
- #   - https://t.me/MOPOZaRodinu
+  #1824081223:
+  # name: Für das Mutterland
+  #  username: MOPOZaRodinu
+  #  bloat:
+  #   - https://t.me/MOPOZaRodinu
 #  bias: 🇷🇺
 1627480627:
   name: Cyberspec News
@@ -130,13 +134,19 @@
   name: Dambiev
   username: ChDambiev
   bias: 🇷🇺
-#1205641526:
-#  name: Krieg Geschichte Waffen
-#  username: historywarweaponmain
- # bloat:
- #   - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
- # bias: 🇷🇺
-
+  #1205641526:
+  #  name: Krieg Geschichte Waffen
+  #  username: historywarweaponmain
+  # bloat:
+  #   - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
+  # bias: 🇷🇺
+1513431778:
+  name: 'Два майора'
+  display: 'Zwei Majors'
+  username: 'dva_majors'
+  bloat:
+    - '<a href="https://t.me/dva_majors">Два майора</a>'
+  bias: 🇷🇺
 
 #Azeri
 1261746950:
@@ -145,3 +155,9 @@
   bloat:
     - '<a href="http://t.me/military_az"> <strong> AАF </strong> </a> <strong> | </strong> <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> <strong> Чат24/7 </strong> </a> <strong> | </strong> <a href="https://t.me/AslanAslanoff"> <strong> Сотрудничество </strong> </a>'
   bias: 🇦🇿
+
+1111348665:
+  name: Милитарист
+  display: Militarist
+  username: infantmilitario
+  bias: 🇷🇺

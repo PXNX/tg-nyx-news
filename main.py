@@ -4,7 +4,8 @@ import re
 from deep_translator import GoogleTranslator
 from telethon import TelegramClient, events
 from telethon.events import NewMessage, MessageEdited, Album
-from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage, MessageMediaPoll
+from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage, MessageMediaPoll, \
+    MessageMediaDocument, MessageMediaPhoto
 
 from config import CHANNEL_NEWS, api_id, api_hash, CHANNEL_BACKUP, CHANNEL_INFO
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
@@ -31,7 +32,7 @@ def get_reply(event):
         reply = event.original_update.message.reply_to.reply_to_msg_id
 
         if reply is not None:
-            return get_post(event.chat_id, reply)
+            return get_post(event.chat_id, reply)[0]
 
 
 def debloat(event):
@@ -100,8 +101,14 @@ async def translate(event, backup_id: int):
         inv_link = f" | <a href='{channel.invite}'>🔗Einladungslink</a>"
     else:
         inv_link = ""
+
+    if channel.display is not None:
+        name = channel.display
+    else:
+        name = channel.name
+
     backup = f"| <a href='https://t.me/nn_backup/{backup_id}'> 💾 </a>"
-    source = f"Quelle: <a href='{link}{event.original_update.message.id}'>{channel.name} {channel.bias} </a>"
+    source = f"Quelle: <a href='{link}{event.original_update.message.id}'>{name} {channel.bias} </a>"
     footer = "👉🏼 Folge @NYX_News für mehr!"
 
     return f"{translated_text}\n\n{source}{backup}\n\n{footer}"
@@ -111,18 +118,19 @@ async def translate(event, backup_id: int):
 async def handle_album(event):  # craft a new message and send
     print("album ------------------- ", event.stringify())
 
-    backup_id = (await event.forward_to(CHANNEL_BACKUP)).id
+    backup_id = (await event.forward_to(CHANNEL_BACKUP))[
+        0].id  # todo: make it handle whole album here and also save media_id of every entry
 
     text = await translate(event, backup_id)
     reply_id = get_reply(event)
 
     for m in event.messages:
-        logging.info(f"media ::::::::::::::::::::::::::::::: ALBUM ::: {m.media.photo.id}")
+        logging.info(f"media ::::::::::::::::::::::::::::::: ALBUM ::: ")  # {m.media.photo.id}
 
     try:
-
         msg = await client.send_message(CHANNEL_NEWS, file=event.messages, message=text, reply_to=reply_id)
-        insert_post(Post(event.chat_id, event.original_update.message[0].id, msg.id, backup_id, reply_id, None))
+        print(f"SENT ALBUM ________________________ :::: {msg}")
+        insert_post(Post(event.chat_id, event.original_update.message.id, msg.id, backup_id, reply_id, None))
     except Exception as e:
         print(f"‼️ Error when sending Album: {e}")
 
@@ -135,10 +143,12 @@ def get_media(event):
     if m is None:
         return
 
-    if m.photo is not None:
+    if type(m) is MessageMediaPhoto:
         return m.photo.id
-    elif m.video[0] is not None:
-        return m.video[0].id
+    elif type(m) is MessageMediaDocument:
+        return m.document.id
+    elif type(m) is MessageMediaWebPage:
+        return m.webpage.photo.id
     else:
         return None
 
@@ -176,9 +186,8 @@ async def post_text(event: NewMessage.Event):
         print("send")
 
         try:
-            if event.message.media is not None and (
-                    event.message.media.photo is not None or event.message.media.video is not None or event.message.media.document is not None) and type(
-                event.media) is not MessageMediaWebPage:  # filter for media type???
+            if event.message.media is not None and type(
+                    event.message.media) is not MessageMediaWebPage:  # filter for media type???
                 print(
                     f"media ::::::::::::::::::::::::::::::: {get_media(event)}")
                 msg = await client.send_file(CHANNEL_NEWS, event.message.media, caption=text, reply_to=reply_id)
@@ -207,7 +216,7 @@ async def edit_text(event: MessageEdited.Event):
 
     if type(event.original_update) is UpdateEditChannelMessage:
         #   print("update")
-        post_id = get_post(event.chat_id, event.message.id)
+        (post_id, backup_id) = get_post(event.chat_id, event.message.id)
         #  print("post to update :::::::::::", post_id, type(post_id))
         print("--- edit ::: post_id :::::", post_id)
 
@@ -215,8 +224,9 @@ async def edit_text(event: MessageEdited.Event):
             return await post_text(event)
 
         try:
-            text = await translate(event)
-            msg = await client.edit_message(CHANNEL_NEWS, post_id, text, link_preview=False)
+            text = await translate(event, backup_id)
+            msg = await client.edit_message(CHANNEL_NEWS, str(post_id), text,
+                                            link_preview=False)  # todo: does that even work?
             print(msg)
         except Exception as e:
             if e.__class__.__name__ != "MessageNotModifiedError":

@@ -1,5 +1,5 @@
 import dataclasses
-from typing import Optional
+from typing import Optional, Tuple
 
 import psycopg2
 from psycopg2.extras import NamedTupleCursor
@@ -49,16 +49,13 @@ def insert_post(post: Post):
         print(res)
 
 
-def get_post(channel_id: int, source_id: int):
+def get_post(channel_id: int, source_id: int) -> Tuple[int,int]:
     with conn.cursor() as c:
-        c.execute("select post_id from  posts where channel_id= %s and source_id = %s;",
+        c.execute("select post_id,backup_id from  posts where channel_id= %s and source_id = %s;",
                   (channel_id, source_id))
         res = c.fetchone()
         print(res)
-        if res is not None:
-            return res[0]
-        else:
-            return res
+        return res[0]
 
 
 def get_reply_id(channel_id: int, source_id: int):

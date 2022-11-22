@@ -1,6 +1,6 @@
 telethon==1.25.4
-deep-translator==1.9.0
+deep-translator==1.9.1
 psycopg2-binary==2.9.5
-sqlalchemy==1.4.42
+sqlalchemy==1.4.44
 python-dotenv==0.21.0
 pyyaml
