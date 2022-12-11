@@ -9,20 +9,22 @@
   name: 'TEST'
   username: 'nn_test69'
 
-1452778151:
-  name: Krugozor
-  bloat:
-    - <a href="https://t.me/krugozor_news">Кругозор</a>
-  username: krugozor_news
-  bias: 🇺🇦
+  #1452778151:
+  #  name: Krugozor
+  # bloat:
+  #   - <a href="https://t.me/krugozor_news">Кругозор</a>
+  # username: krugozor_news
+  # bias: 🇺🇦
 1619608359:
-  name: TiskSnip
+  name: Tysk
   bias: 🇺🇦
-1413275904:
-  name: NEXTA
-  bloat:
-    - 'Прислать нам информацию: @nextamail_bot или info@nexta.tv\n\nПоддержать работу нашей редакции можно через\nPayPal: https://paypal.me/nexta\nPatreon: https://patreon.com/nexta_tv\nИли другие варианты (криптовалюта): https://nexta.tv/support\n\nНаш YouTube\nhttps://www.youtube.com/nexta_tv\nhttps://www.youtube.com/nexta_live\n\nНаш Twitter (In       - English)\nhttps://twitter.com/nexta_tv\n\nНаш TikTok\nwww.tiktok.com/@nexta_tv\n\nШойгу пошёл против Путина / Ну и новости!\nhttps://youtu.be/6T40_Ll1mMs\n\nФСБ готовит госпереворот / Ну и новости!\nhttps://youtu.be/aIiUeuTxJJs'
-  bias: 🇺🇦
+  username: 'TyskNIP'
+  #1413275904:
+  #  name: NEXTA
+  # bloat:
+  #    - 'Прислать нам информацию: @nextamail_bot или info.py@nexta.tv\n\nПоддержать работу нашей редакции можно через\nPayPal: https://paypal.me/nexta\nPatreon: https://patreon.com/nexta_tv\nИли другие варианты (криптовалюта): https://nexta.tv/support\n\nНаш YouTube\nhttps://www.youtube.com/nexta_tv\nhttps://www.youtube.com/nexta_live\n\nНаш Twitter (In       - English)\nhttps://twitter.com/nexta_tv\n\nНаш TikTok\nwww.tiktok.com/@nexta_tv\n\nШойгу пошёл против Путина / Ну и новости!\nhttps://youtu.be/6T40_Ll1mMs\n\nФСБ готовит госпереворот / Ну и новости!\nhttps://youtu.be/aIiUeuTxJJs'
+  # bias: 🇺🇦
+  # username: 'nexta_live'
 1011817559:
   name: Militarniy
   bloat:
@@ -30,6 +32,11 @@
     - 'Близький Схід українською\n<a href="https://t.me/MiddleEastinUkrainian">https://t.me/MiddleEastinUkrainian</a>'
   username: milinua
   bias: 🇺🇦
+#1783484530:
+#  name: 'Pravda_Gerashchenko_en'
+#  username: 'pravdaGerashchenko_en'
+#  display: 'Anton Herashchenko'
+#  bias: 🇺🇦
 1469021333:
   name: DeepState
   bloat:
@@ -40,10 +47,10 @@
   name: Rysnya
   username: rysnya200
   bias: 🇺🇦
-1470200990:
-  name: Suspilne
-  username: suspilnenews
-  bias: 🇺🇦
+#1470200990:
+#  name: Suspilne
+#  username: suspilnenews
+#  bias: 🇺🇦
 1393505038:
   name: Karpatska Sich
   username: karpatska_sich
@@ -58,36 +65,44 @@
 #  bias: 🇺🇦
 1731636769:
   name: Batallion Monaco
-  invite: https://t.me/+un4Mel3_naU1ZjZi
+  invite: un4Mel3_naU1ZjZi
   bloat:
     - '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>'
     - '<a href="https://t.me/monakoadvertising">З питань реклами</a>'
+    - '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» </a><a href="https://t.me/+un4Mel3_naU1ZjZi">💎</a>'
     - '<strong>@monakoadvertising</strong>'
   bias: 🇺🇦
+1149787308:
+  name: 'INSIDER KYIV'
+  invite: 'JUhC6-fk7QNlMDRi'
+  display: 'Insider Kyiv'
+  bias: 🇺🇦
 
-# Russian
-1260622817:
-  name: Readovka
-  bias: 🇷🇺
-  username: readovkanews
+  # Russian
+  #1260622817:
+  #  name: Readovka
+  #  bias: 🇷🇺
+  # username: readovkanews
 1149896996:
   name: Interfax
   bloat:
     - '@interfaxonline'
   bias: 🇷🇺
   username: interfaxonline
-1708761316:
-  name: Prjamoy Efir
-  invite: https://t.me/+jQvaOFH1zhAzMzIy
-  bloat:
-    - <a href="https://t.me/+jQvaOFH1zhAzMzIy">Прямой эфир - подписаться</a>
-  bias: 🇷🇺
-1099737840:
-  name: Rusvesna
-  username: rusvesnasu
-  bloat:
-    - <a href="<strong>t.me/rusvesnasu</strong>"><strong>t.me/rusvesnasu</strong></a>
-  bias: 🇷🇺
+  #1708761316:
+  # name: Prjamoy Efir
+  # invite: https://t.me/+jQvaOFH1zhAzMzIy
+  # bloat:
+  #   - <a href="https://t.me/+jQvaOFH1zhAzMzIy">Прямой эфир - подписаться</a>
+  # bias: 🇷🇺
+  #1099737840:
+  #  name: Rusvesna
+  #  username: rusvesnasu
+  #  bloat:
+  #   - <a href="<strong>t.me/rusvesnasu</strong>"><strong>t.me/rusvesnasu</strong></a>
+#    - <a href="t.me/rusvesnasu">t.me/rusvesnasu</a>
+#    - t.me/rusvesnasu
+#  bias: 🇷🇺
 #1498939244:
 #  name: Voenacher
 #  username: voenacher
@@ -112,8 +127,8 @@
   bias: 🇵🇱🇷🇺
 1558764025:
   name: 'Летит Калибр'
-  display: Letit Kalibr
-  invite: https://t.me/+5q81cPjA5eE4ZDQy
+  display: Fliegende Kalibr
+  invite: 5q81cPjA5eE4ZDQy
   bloat:
     - - '<em>👁</em> Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
     - '👁 Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
@@ -140,13 +155,13 @@
   # bloat:
   #   - Война История Оружие\n<a href="https://t.me/historywarweaponmain">Подписаться на канал</a>
   # bias: 🇷🇺
-1513431778:
-  name: 'Два майора'
-  display: 'Zwei Majors'
-  username: 'dva_majors'
-  bloat:
-    - '<a href="https://t.me/dva_majors">Два майора</a>'
-  bias: 🇷🇺
+  #1513431778:
+  # name: 'Два майора'
+  #  display: 'Zwei Majors'
+  # username: 'dva_majors'
+  #  bloat:
+  #   - '<a href="https://t.me/dva_majors">Два майора</a>'
+  # bias: 🇷🇺
 
 #Azeri
 1261746950:
@@ -156,8 +171,22 @@
     - '<a href="http://t.me/military_az"> <strong> AАF </strong> </a> <strong> | </strong> <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> <strong> Чат24/7 </strong> </a> <strong> | </strong> <a href="https://t.me/AslanAslanoff"> <strong> Сотрудничество </strong> </a>'
   bias: 🇦🇿
 
-1111348665:
-  name: Милитарист
-  display: Militarist
-  username: infantmilitario
-  bias: 🇷🇺
+  #1111348665:
+  #  name: Милитарист
+  #  display: Militarist
+  #  username: infantmilitario
+  #  bias: 🇷🇺
+
+  #1251299061:
+  #  name: 'SouthFront: Analysis & Intelligence (Ukraine, Syria, Yemen)'
+  # display: 'SouthFront'
+  #  username: 'southfronteng'
+  #1241559280:
+  #  name: 'bmpd'
+  #  username: 'bmpd_cast'
+  # display: 'BMPD'
+
+1883849128:
+  name: 'Suriyakmaps'
+  username: 'Suriyak_maps'
+

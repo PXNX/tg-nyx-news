@@ -138,7 +138,7 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-log.out
+logs
 nyx-news.session-journal
 nyx-news.session
 nyx-news2.session

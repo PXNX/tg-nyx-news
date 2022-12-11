@@ -32,13 +32,16 @@ class Source:
     invite: Optional[str]
     username: Optional[str]
 
-def insert_source(source:Source):
+
+def insert_source(source: Source):
     with conn.cursor() as c:
         res = c.execute(
             "insert into sources(channel_id,  detail_id, bias, description, rating, channel_name,display_name,invite,username) values (%s,%s,%s,%s,%s,%s,%s,%s,%s);",
-            (source.channel_id, source.detail_id,source.bias,source.description,source.rating,source.channel_name,source.display_name,source.invite,source.username))
+            (source.channel_id, source.detail_id, source.bias, source.description, source.rating, source.channel_name,
+             source.display_name, source.invite, source.username))
         conn.commit()
         print(res)
+
 
 def insert_post(post: Post):
     with conn.cursor() as c:
@@ -49,13 +52,13 @@ def insert_post(post: Post):
         print(res)
 
 
-def get_post(channel_id: int, source_id: int) -> Tuple[int,int]:
+def get_post(channel_id: int, source_id: int) -> Tuple[int, int]:
     with conn.cursor() as c:
         c.execute("select post_id,backup_id from  posts where channel_id= %s and source_id = %s;",
                   (channel_id, source_id))
         res = c.fetchone()
         print(res)
-        return res[0]
+        return res  # [0]
 
 
 def get_reply_id(channel_id: int, source_id: int):
@@ -80,3 +83,26 @@ def get_media_id(channel_id: int, source_id: int):
             return res[0]
         else:
             return res
+
+
+@dataclasses.dataclass
+class SourceDAO:
+    channel_id: int
+    detail_id: int
+    rating: int
+    bias: str
+    description: Optional[str]
+    channel_name: str
+    display_name: str
+    invite: Optional[str]
+    username: Optional[str]
+
+
+def insert_source(source: SourceDAO):
+    with conn.cursor() as c:
+        c.execute(
+            "insert into sources(channel_id, detail_id, rating, bias, description, channel_name, display_name, "
+            "invite,username)  values(%s,%s,%s,%s,%s,%s,%s,%s,%s);",
+            (source.channel_id, source.detail_id, source.rating, source.bias, source.description, source.channel_name,
+             source.display_name, source.invite, source.username))
+        conn.commit()

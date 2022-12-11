@@ -1,127 +1,66 @@
 import logging
 import re
 
-from deep_translator import GoogleTranslator
 from telethon import TelegramClient, events
 from telethon.events import NewMessage, MessageEdited, Album
 from telethon.tl.types import UpdateNewChannelMessage, UpdateEditChannelMessage, MessageMediaWebPage, MessageMediaPoll, \
-    MessageMediaDocument, MessageMediaPhoto
+    MessageMediaDocument
 
-from config import CHANNEL_NEWS, api_id, api_hash, CHANNEL_BACKUP, CHANNEL_INFO
-from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
-from db import insert_post, Post, get_post
-from source import sources, source_ids, get_sources
+from config import CHANNEL_NEWS, api_id, api_hash, CHANNEL_BACKUP, CHANNEL_MEME
+from src.db import get_post, insert_post, Post
+from src.input import source_ids, get_active_sources, get_all_sources
+from src.log import init_logger
+from src.translate import translate, format_text, translate_text
+from src.util import get_reply, get_media, format_channel_id
+
+init_logger()
 
 client = TelegramClient("nyx-news2", api_id, api_hash)
 client.parse_mode = 'html'
-get_sources()
-
-LOG_FILENAME = r'C:\Users\Pentex\PycharmProjects\tg-nyx-news\log.out'
-logging.basicConfig(
-    format="%(asctime)s -  %(levelname)s - [%(filename)s:%(lineno)s - %(funcName)20s()]: %(message)s ",
-    level=logging.INFO, filename=LOG_FILENAME
-)
+get_active_sources()
+get_all_sources()
 
 
-# log = logging.getLogger(__name__)
-
-
-def get_reply(event):
-    if event.original_update.message.reply_to is not None:
-
-        reply = event.original_update.message.reply_to.reply_to_msg_id
-
-        if reply is not None:
-            return get_post(event.chat_id, reply)[0]
-
-
-def debloat(event):
-    text = event.text
-
-    channel = sources[event.chat_id]
-
-    if channel.bloat is not None:
-        bloats = [
-            e.replace("/", r"\/").replace(".", r"\.").replace("+", r"\+").replace("|", r"\|").replace(" ", r"\s*")
-            for e in channel.bloat
-        ]  # .replace("<strong>","").replace("</strong>","")
-        print("bloats ::::", bloats, event.text)
-        if len(bloats) != 0:
-            for m in bloats:
-                text = re.sub(m, '', text)
-            #   print("replace::::::::::", text, "pattern ::::", m)
-
-    print("debloat ::::", text)
-    return text
-
-
-def sanitize(text: str):
-    cleaned_empty = re.sub(TAG_EMPTY, '', text)
-
-    g = re.search(TAG_TRAILING, cleaned_empty)
-    print("GROUP::::::::::::::::::::", cleaned_empty, g)
-
-    if g is not None:
-        for m in g.groups():
-            cleaned_empty = re.sub(TAG_TRAILING, f"</{m}>", cleaned_empty, 1)
-            print("MATCH ::::::::::::::", cleaned_empty)
-
-    sub_text = re.sub(HASHTAG, '', cleaned_empty)
-    print("subbbbbbbb ", sub_text)
-
-    sub_text = sub_text.replace("<strong>", "<b>").replace("</strong>", "</b>").replace("<em>", "<i>").replace("</em>",
-                                                                                                               "</i>")
-    print("sanitized ::::", sub_text)
-    return sub_text
-
-
-async def translate(event, backup_id: int):
-    if event.original_update.message.fwd_from is not None and event.original_update.message.fwd_from.from_id in source_ids:
-        return
-
-    channel = sources[event.chat_id]
-
-    sub_text = sanitize(debloat(event))
-
-    emojis = re.findall(FLAG_EMOJI, sub_text)
-    text_to_translate = re.sub(FLAG_EMOJI, PLACEHOLDER, sub_text)
-    translated_text = GoogleTranslator(target="de").translate(text=text_to_translate)
-
-    for emoji in emojis:
-        translated_text = re.sub(PLACEHOLDER, emoji, translated_text, 1)
-
-    print("translated_text :::::", translated_text)
-
-    if channel.username is None:
-        link = f"tg://privatepost?channel={str(event.chat_id)[4:]}&post="
-    else:
-        link = f"https://t.me/{channel.username}/"
-
-    if channel.invite is not None:
-        inv_link = f" | <a href='{channel.invite}'>🔗Einladungslink</a>"
-    else:
-        inv_link = ""
-
-    if channel.display is not None:
-        name = channel.display
-    else:
-        name = channel.name
-
-    backup = f"| <a href='https://t.me/nn_backup/{backup_id}'> 💾 </a>"
-    source = f"Quelle: <a href='{link}{event.original_update.message.id}'>{name} {channel.bias} </a>"
-    footer = "👉🏼 Folge @NYX_News für mehr!"
-
-    return f"{translated_text}\n\n{source}{backup}\n\n{footer}"
+@client.on(events.Album(chats=CHANNEL_NEWS))
+async def handle_album_own(event: Album.Event):
+    if event.original_update.message.fwd_from is not None:
+        channel_id = format_channel_id(event.original_update.message.fwd_from.from_id.channel_id)
+        if channel_id == CHANNEL_MEME:
+            return
+        print(event.stringify() + " ----------- HAO ---")
+        try:
+            await post_album(event, channel_id)
+        except Exception as e:
+            logging.exception(e)
+            pass
+        await client.delete_messages(event.chat_id, [x.id for x in event.messages])
 
 
 @client.on(events.Album(chats=source_ids))
-async def handle_album(event):  # craft a new message and send
+async def handle_album(event: Album.Event):  # craft a new message and send
+
     print("album ------------------- ", event.stringify())
+    logging.debug("--------- post ALBUM :::", event.stringify())
+
+    if event.original_update.message.fwd_from is not None:  ##### and event.original_update.message.fwd_from.from_id in source_ids:
+        return
+
+    await post_album(event)
+
+
+async def post_album(event: Album.Event, chat_id=None):
+    if chat_id is None:
+        chat_id = event.chat_id
+
+    translated_text = await translate(event, chat_id)
+    if translated_text is None:
+        return
 
     backup_id = (await event.forward_to(CHANNEL_BACKUP))[
         0].id  # todo: make it handle whole album here and also save media_id of every entry
 
-    text = await translate(event, backup_id)
+    text = format_text(translated_text, event, backup_id, chat_id)
+
     reply_id = get_reply(event)
 
     for m in event.messages:
@@ -130,72 +69,117 @@ async def handle_album(event):  # craft a new message and send
     try:
         msg = await client.send_message(CHANNEL_NEWS, file=event.messages, message=text, reply_to=reply_id)
         print(f"SENT ALBUM ________________________ :::: {msg}")
-        insert_post(Post(event.chat_id, event.original_update.message.id, msg.id, backup_id, reply_id, None))
+        insert_post(Post(chat_id, event.original_update.message.id, msg.id, backup_id, reply_id, None))
     except Exception as e:
         print(f"‼️ Error when sending Album: {e}")
 
     print("--- end ALBUM")
 
 
-def get_media(event):
-    m = event.original_update.message.media
+@client.on(events.NewMessage(chats=CHANNEL_NEWS, incoming=True, func=lambda a: a.grouped_id is None))
+# @client.on(events.NewMessage(chats=CHANNEL_NEWS, outgoing=True, func=lambda a: a.grouped_id is None))
+async def post_text_own(event: NewMessage.Event):
+    print(event.stringify() + " ---------------------------- pto")
+    if event.original_update.message.fwd_from is not None:
+        channel_id = format_channel_id(event.original_update.message.fwd_from.from_id.channel_id)
+        if channel_id == CHANNEL_MEME:
+            return
 
-    if m is None:
-        return
+        print(event.stringify() + "------------------------------------------------ PTO if")
+        try:
 
-    if type(m) is MessageMediaPhoto:
-        return m.photo.id
-    elif type(m) is MessageMediaDocument:
-        return m.document.id
-    elif type(m) is MessageMediaWebPage:
-        return m.webpage.photo.id
-    else:
-        return None
-
-
-@client.on(events.Album(chats=CHANNEL_INFO))
-async def post_info_album(event: Album.Event):
-    msg = await event.forward_to(CHANNEL_NEWS)
-    await msg[0].pin()
+            await post_text(event, channel_id)
+        except Exception as e:
+            logging.exception(e)
+            pass
+        print("-- post text own END --")
+        await client.delete_messages(event.chat_id, event.message.id)
 
 
-@client.on(events.NewMessage(chats=CHANNEL_INFO, incoming=True, func=lambda a: a.grouped_id is None))
-async def post_info(event: NewMessage.Event):
-    msg = await event.forward_to(CHANNEL_NEWS)
-    msg.pin()
-
-
+# todo: maybe add a functionality where you can send something to the bot account and it will then post in channel?
 @client.on(events.NewMessage(chats=source_ids, incoming=True, func=lambda a: a.grouped_id is None))
 # @client.on(events.NewMessage(chats=-1001391125365, outgoing=True, func= lambda a: a.grouped_id is None))
-async def post_text(event: NewMessage.Event):
+async def handle_text(event: NewMessage.Event):
     #   print(event.raw_text)
     print("--------- post TEXT:::", event.stringify())
     logging.debug("--------- post TEXT:::", event.stringify())
+
+    if event.original_update.message.fwd_from is not None:  ##### and event.original_update.message.fwd_from.from_id in source_ids:
+        return
 
     # if get_media(event) is not None and get_media_id(event.chat_id, event.original_update.message.id) == get_media(
     #      event):
     #   print("---------\n\n\n A L R E A D Y  -- P R E S E N T\n\n\n---------")
     #   return
+    await post_text(event)
 
-    backup_id = (await event.forward_to(CHANNEL_BACKUP)).id
-    text = await translate(event, backup_id)
-    reply_id = get_reply(event)
+
+async def post_text(event: NewMessage.Event, chat_id=None):
+    print("Handle Text")
 
     if type(event.original_update) is UpdateNewChannelMessage and event.original_update.message.grouped_id is None and type(
             event.media) is not MessageMediaPoll and type(event) is NewMessage.Event:
         print("send")
 
+        if chat_id is None:
+            chat_id = event.chat_id
+
+        translated_text = await translate(event, chat_id)
+        print(translated_text)
+        if translated_text is None:
+            return
+
+        backup_id = (await event.forward_to(CHANNEL_BACKUP)).id
+
+        text = format_text(translated_text, event, backup_id, chat_id)
+
+        reply_id = get_reply(event)
+
+        print("sendd")
+
         try:
-            if event.message.media is not None and type(
-                    event.message.media) is not MessageMediaWebPage:  # filter for media type???
-                print(
-                    f"media ::::::::::::::::::::::::::::::: {get_media(event)}")
-                msg = await client.send_file(CHANNEL_NEWS, event.message.media, caption=text, reply_to=reply_id)
-                insert_post(Post(event.chat_id, event.message.id, msg.id, backup_id, reply_id, get_media(event)))
+            if event.message.media is not None:  # filter for media type???
+                print("has media")
+
+                if type(event.message.media) is MessageMediaDocument and event.message.media.document.mime_type.startswith(
+                        "audio"):
+                    return
+
+                print(f"media ::::::::::::::::::::::::::::::: {get_media(event)}")
+
+                if type(event.message.media) is MessageMediaWebPage:
+
+                    await client.send_message(703453307,
+                                              f"MessageMediaWebPage ‼\n\nTitle: <code>{event.message.media.webpage.title}</code>\n\n\nId: <code>{event.message.id}</code>\n\n\nMedia: <code>{event.message.media}</code>")
+
+                    if event.message.media.webpage.title is not None and len(
+                            re.findall(r"t\.me/", event.message.media.webpage.url)) == 0:
+                        formatted_text = f"<b>{translate_text(event.message.media.webpage.title)}</b>\n\n{text}"
+                    else:
+                        formatted_text = text
+
+                    if event.message.media.webpage.photo is not None and event.message.media.webpage.type != 'video':
+                        media = event.message.media.webpage.photo
+                    elif event.message.media.webpage.photo is not None and event.message.media.webpage.type == 'video':
+                        # todo: find a way to download videos
+                        media = event.message.media.webpage.photo
+                    else:  # todo: just send text then?
+                        msg = await client.send_message(CHANNEL_NEWS, formatted_text, link_preview=False,
+                                                        reply_to=reply_id)
+                        insert_post(Post(chat_id, event.message.id, msg.id, backup_id, reply_id, None))
+                        return
+
+                    msg = await client.send_file(CHANNEL_NEWS, media, caption=formatted_text, reply_to=reply_id)
+
+                else:
+                    msg = await client.send_file(CHANNEL_NEWS, event.message.media, caption=text, reply_to=reply_id)
+
+                    insert_post(Post(chat_id, event.message.id, msg.id, backup_id, reply_id, get_media(event)))
+
             else:
 
                 msg = await client.send_message(CHANNEL_NEWS, text, link_preview=False, reply_to=reply_id)
-                insert_post(Post(event.chat_id, event.message.id, msg.id, backup_id, reply_id, None))
+                insert_post(Post(chat_id, event.message.id, msg.id, backup_id, reply_id, None))
 
             print(msg)
 
@@ -212,20 +196,22 @@ async def post_text(event: NewMessage.Event):
 async def edit_text(event: MessageEdited.Event):
     print("edit--------", event.raw_text)
 
-    #  print(event.stringify())
+    print(event.stringify())
 
     if type(event.original_update) is UpdateEditChannelMessage:
+        print("--- update ---")
         #   print("update")
         (post_id, backup_id) = get_post(event.chat_id, event.message.id)
         #  print("post to update :::::::::::", post_id, type(post_id))
         print("--- edit ::: post_id :::::", post_id)
 
         if post_id is None:
-            return await post_text(event)
+            await handle_text(event)
 
         try:
-            text = await translate(event, backup_id)
-            msg = await client.edit_message(CHANNEL_NEWS, str(post_id), text,
+            text = format_text(await translate(event), event, backup_id)
+
+            msg = await client.edit_message(CHANNEL_NEWS, post_id, text,
                                             link_preview=False)  # todo: does that even work?
             print(msg)
         except Exception as e:

@@ -27,11 +27,6 @@
   name: 'Россия'
   username: 'russiafirstchannel'
   bias: 🇷🇺
-1152463236:
-  name: 'Форпост'
-  display: 'Außenposten'
-  username: 'vorposte'
-  bias: 🇷🇺
 1177424903:
   name: '❌ COMPACT-Magazin'
   username: 'CompactMagazin'
@@ -76,11 +71,6 @@
   name: '🇬🇧 SITREP - Rybar and Others in English 🇬🇧'
   display: 'SITREP'
   username: 'sitreports'
-  bias: 🇷🇺
-1074354585:
-  name: 'Военный Осведомитель'
-  display: 'Milinfolive'
-  username: 'milinfolive'
   bias: 🇷🇺
 1281001277:
   name: 'WWV News'
@@ -132,10 +122,6 @@
   display: 'Verteidigungsministerium Russland'
   username: 'mod_russia'
   bias: 🇷🇺
-1261746950:
-  name: 'AAF'
-  username: 'military_az'
-  bias: 🇦🇿
 1215462939:
   name: 'ANNA-NEWS'
   username: 'anna_news'
@@ -249,11 +235,6 @@
   name: 'МАРДАН'
   display: 'Mardan'
   username: 'mardanaka'
-1011817559:
-  name: 'Мілітарний'
-  display: 'Militarnyy'
-  username: 'milinua'
-  bias: 🇺🇦
 1673614390:
   name: 'Тарас Григорович повідомляє…'
   display: 'Taras Grigorowitsch'
@@ -281,11 +262,6 @@
   display: 'Karussell'
   username: 'krugozor_news'
   bias: 🇺🇦
-1149896996:
-  name: 'Интерфакс'
-  display: 'Interfax'
-  username: 'interfaxonline'
-  bias: 🇷🇺
 1769400021:
   name: 'RUSVARG'
   username: 'rusvarg'
@@ -312,11 +288,6 @@
   name: 'ХЕРСОН: Война Без Фейков'
   display: 'KhersonNonFake'
   username: 'kherson_non_fake'
-  bias: 🇺🇦
-1469021333:
-  name: '✙DeepState✙🇺🇦'
-  display: 'DeepState'
-  username: 'DeepStateUA'
   bias: 🇺🇦
 1762310403:
   name: '🇺🇦 Іван Федоров / Мелітополь / міський голова'
@@ -345,10 +316,6 @@
   name: 'MilitaryMaps | Z 🇷🇺'
   username: 'militarymaps'
   bias: 🇷🇺
-1627480627:
-  name: 'Cyberspec News'
-  username: 'CyberspecNews'
-  bias: 🇷🇺
 1372147953:
   name: 'Народная милиция ДНР'
   username: 'nm_dnr'
@@ -374,20 +341,6 @@
   display: 'Ewiger Moskowiter'
   username: 'EternalMuscovite'
   bias: 🇺🇦
-1201459971:
-  name: 'ДОХЛА РУСНЯ │ ✙'
-  display: 'Rysnya'
-  username: 'rysnya200'
-  bias: 🇺🇦
-1619608359:
-  name: 'НІП «Тиск»'
-  display: 'Tysk'
-  username: 'TyskNIP'
-  bias: 🇺🇦
-1727181613:
-  name: 'NMFTE'
-  username: 'NMFTE'
-  bias: 🇺🇦
 1216029091:
   name: 'Военное обозрение (В обозе)'
   username: 'militaryreview'
@@ -404,10 +357,6 @@
 1627760447:
   name: 'Eternal Bolshevik'
   username: 'hateBolshevik1939'
-1218410161:
-  name: 'Dambiev'
-  username: 'ChDambiev'
-  bias: 🇷🇺
 1382288937:
   name: 'Балканская сплетница'
   username: 'balkanossiper'
@@ -449,11 +398,6 @@
 1292891939:
   name: 'Romanov Лайт ]ࣩࣩࣩࣩ࣯ࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩࣩ'
   username: 'romanov_92'
-1393505038:
-  name: 'КАРПАТСЬКА СІЧ'
-  display: 'Karpatska Sich'
-  username: 'karpatska_sich'
-  bias: 🇺🇦
 1419769554:
   name: 'UKR LEAKS_eng'
   username: 'ukr_leaks_eng'
@@ -485,11 +429,6 @@
   display: 'Anatoly Stefan'
   username: 'a_shtirlitz'
   bias: 🇺🇦
-1577023152:
-  name: 'Варшавская русалка'
-  display: 'Syrenka'
-  username: 'pl_syrenka'
-  bias: 🇵🇱🇷🇺
 1326223284:
   name: 'Рыбарь'
   display: 'Rybar'
@@ -576,7 +515,7 @@
   name: 'Node of Time DE'
   username: 'node_of_time_DE'
 1733032527:
-  name: 'Donbass-info Донбасс'
+  name: 'Donbass-info.py Донбасс'
   username: 'DonbassINFO'
 1475054987:
   name: 'Блокнот Пропагандиста'
@@ -624,16 +563,6 @@
 1422980999:
   name: 'Українське Братство🇺🇦'
   invite: 'k3kta11DFzU2ZDMy'
-  bias: 🇺🇦
-1558764025:
-  name: 'Летит Калибр'
-  display: 'Fliegende Kalibr'
-  invite: '5q81cPjA5eE4ZDQy'
-  bias: 🇷🇺
-1731636769:
-  name: 'Батальон «Монако» 💎'
-  display: 'Batallion Monaco'
-  invite: 'un4Mel3_naU1ZjZi'
   bias: 🇺🇦
 1102909292:
   name: 'Rus_criminal'
@@ -1453,3 +1382,253 @@
 1776670248:
   name: 'Донбасс реалити'
   username: 'Donbass_reality'
+1105313000:
+  name: 'УНИАН - новости Украины | война с Россией | новини України | війна з Росією | УНІАН'
+  username: 'uniannet'
+
+1153203654:
+  name: 'Котя'
+  username: 'kotya'
+
+1722167948:
+  name: 'Pravda Gerashchenko'
+  username: 'Pravda_Gerashchenko'
+1013568855:
+  name: 'Anadolu Ajansı'
+  username: 'anadoluajansi'
+1381044150:
+  name: 'Reality Theories, Eva K Bartlett'
+  username: 'Reality_Theories'
+1783484530:
+  name: 'Pravda_Gerashchenko_en'
+  username: 'pravdaGerashchenko_en'
+  display: 'Anton Herashchenko'
+  bias: 🇺🇦
+1767753724:
+  name: 'Сборы и отчёты канала 🇷🇺БРАТЬЯ_РАБОТАЮТ🇷🇺'
+  username: 'bratia_rabotaut'
+
+1676376547:
+  name: 'Опознай хохла по чубу'
+  username: 'chub_detection'
+1707117669:
+  name: 'ZАЧИСТКА'
+  username: 'zachistka_ua'
+1676840779:
+  name: 'Der 17. Sinn 💭 - KANAL 💥'
+  username: 'der17sinn'
+1378813139:
+  name: 'Baza'
+  username: 'bazabazon'
+1369926269:
+  name: 'МЕМуарій воєнного часу'
+  username: 'memuaryi'
+1738743147:
+  name: 'Polish connection'
+  username: 'hotptakes'
+1704762155:
+  name: 'Старушка Англия'
+  username: 'oldGBR'
+1463866355:
+  name: 'Global Intel Watch'
+  username: 'geopoliticalblog'
+1426678330:
+  name: 'Ana Qtella'
+  username: 'anaqtella'
+1542299931:
+  name: 'ДСУ 95-я🇺🇦'
+  username: 'dsu95reboot'
+1587808504:
+  name: 'Mango Press 🥭🗝'
+  username: 'mangopress'
+1320085021:
+  name: 'ARMENIAN RADICAL'
+  username: 'ARMENISCH88'
+1604696460:
+  name: 'Немецкий орел/Deutscher Adler'
+  username: 'de_adler'
+1632743886:
+  name: 'ИЗНАНКА'
+  username: 'The_Wrong_Side'
+1870689880:
+  name: 'СтаЯ. Одной крови.'
+  username: 'vashastaya'
+1617683916:
+  name: 'War in Ukraine, Subtitled'
+  username: 'war_subtitled_en'
+1384036563:
+  name: 'Таврическая Республика'
+  username: 'Tauride_Republic'
+1795386229:
+  name: 'DENI VENDETTI × ( МОДЖАХЕД )'
+  username: 'denivendettiofficial'
+1634016822:
+  name: 'Happy лапки 🐾 БФ "Nika Ukraine"'
+  username: 'LookForMe_animals'
+1669351813:
+  name: 'Right to Dissent.'
+  username: 'right2dissent'
+1372813597:
+  name: 'ONLY THROATS 18+🇷🇺'
+  username: 'onlythroats'
+1779016252:
+  name: 'Battlefield Insights'
+  username: 'battleinsights'
+1534945236:
+  name: 'Україна ЗСУ 18✙🇺🇦'
+  username: 'ukwarzone'
+1610042118:
+  name: 'Trigger Man'
+  username: 'TriggerManArchive'
+
+
+
+1647739882:
+  name: 'Russian Losses In Ukraine'
+  username: 'russian_losses'
+1364871396:
+  name: 'новин.яр'
+  username: 'novynyar'
+1135818819:
+  name: 'КБ'
+  username: 'Cbpub'
+1778748770:
+  name: 'Жесть | Мясорубка | Пила | Топор | Война 18+'
+  username: 'cbpub_ru'
+1475779966:
+  name: '🚨 𝙂𝙀𝙊𝙋𝙊𝙇𝙄́𝙏𝙄𝘾𝘼 #𝙎𝙊𝙎𝙁𝙁𝘼𝘼'
+  username: 'medicospelavida'
+1481985424:
+  name: 'Esoteric Lindy'
+  username: 'EsotericLindy'
+1240836101:
+  name: 'Supernova+ | Война с Россией | Кадры с фронта | Новости Украины'
+  username: 'supernova_plus'
+
+1399695978:
+  name: 'Jonathan Bowden Unofficial Archive'
+  username: 'jonathanbowdenarchive'
+
+1414796593:
+  name: 'Smak'
+  username: 'smak_media'
+1423171236:
+  name: 'УралДейли-РеZерV'
+  username: 'uraldailyPeZerV'
+1633785633:
+  name: 'Война Глазами Журналиста'
+  username: 'WarInMyEyes'
+
+
+1741393609:
+  name: 'Донбасс Россия'
+  username: 'donbassrussiazvo'
+1615632690:
+  name: 'Aryan Enlightenment'
+  username: 'AryanVictory'
+1774937638:
+  name: 'INSAIDER ARKHANGEL SPETSNAZA'
+  username: 'donetsk4_cbpub'
+
+
+
+
+
+1391125365:
+  name: 'TEST'
+  username: 'nn_test69'
+1619608359:
+  name: Tysk
+  bias: 🇺🇦
+  username: 'TyskNIP'
+1011817559:
+  name: Militarniy
+  bloat:
+    - '@milinua'
+    - 'Близький Схід українською\n<a href="https://t.me/MiddleEastinUkrainian">https://t.me/MiddleEastinUkrainian</a>'
+  username: milinua
+  bias: 🇺🇦
+1469021333:
+  name: DeepState
+  bloat:
+    - '<a href="https://deepstateua.shop/">Магазин</a>🛑<a href="https://deepstateua.com/">Блог</a>🛑<a href="https://deepstatemap.live/">Мапа</a>🛑<a href="http://t.me/newsDeepStatebot">Написати нам</a>🛑<a href="https://help.deepstateua.com/">Звіти</a>🛑<a href="https://t.me/help_deepstateua">ЗСУHelp</a>'
+  username: DeepStateUA
+  bias: 🇺🇦
+1201459971:
+  name: Rysnya
+  username: rysnya200
+  bias: 🇺🇦
+1393505038:
+  name: Karpatska Sich
+  username: karpatska_sich
+  bias: 🇺🇦
+1727181613:
+  name: NMFTE
+  username: NMFTE
+  bias: 🇺🇦
+1731636769:
+  name: Batallion Monaco
+  invite: un4Mel3_naU1ZjZi
+  bloat:
+    - '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» 💎</a>'
+    - '<a href="https://t.me/monakoadvertising">З питань реклами</a>'
+    - '<a href="https://t.me/+un4Mel3_naU1ZjZi">Батальон «Монако» </a><a href="https://t.me/+un4Mel3_naU1ZjZi">💎</a>'
+    - '<strong>@monakoadvertising</strong>'
+  bias: 🇺🇦
+1149787308:
+  name: 'INSIDER KYIV'
+  invite: 'JUhC6-fk7QNlMDRi'
+  display: 'Insider Kyiv'
+  bias: 🇺🇦
+1149896996:
+  name: Interfax
+  bloat:
+    - '@interfaxonline'
+  bias: 🇷🇺
+  username: interfaxonline
+1152463236:
+  name: Vorposte
+  username: vorposte
+  bloat:
+    - '@vorposte'
+  bias: 🇷🇺
+1074354585:
+  name: Milinfolive
+  username: milinfolive
+  bloat:
+    - '@milinfolive'
+  bias: 🇷🇺
+1577023152:
+  name: Syrenka
+  username: pl_syrenka
+  bloat:
+    - '@pl_syrenka — Польша не заграница'
+  bias: 🇵🇱🇷🇺
+1558764025:
+  name: 'Летит Калибр'
+  display: Fliegende Kalibr
+  invite: 5q81cPjA5eE4ZDQy
+  bloat:
+    - - '<em>👁</em> Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
+    - '👁 Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
+    - '👁 Смотри 🚀 Л<a href="https://t.me/+5q81cPjA5eE4ZDQy">етит_Калибр</a>'
+    - 'Смотри 🚀 <a href="https://t.me/+5q81cPjA5eE4ZDQy">Летит_Калибр</a>'
+  bias: 🇷🇺
+1627480627:
+  name: Cyberspec News
+  username: CyberspecNews
+  bias: 🇷🇺
+1218410161:
+  name: Dambiev
+  username: ChDambiev
+  bias: 🇷🇺
+1261746950:
+  name: AAF
+  username: military_az
+  bloat:
+    - '<a href="http://t.me/military_az"> <strong> AАF </strong> </a> <strong> | </strong> <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> <strong> Чат24/7 </strong> </a> <strong> | </strong> <a href="https://t.me/AslanAslanoff"> <strong> Сотрудничество </strong> </a>'
+  bias: 🇦🇿
+1883849128:
+  name: 'Suriyakmaps'
+  username: 'Suriyak_maps'
+
