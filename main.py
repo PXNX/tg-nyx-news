@@ -1,4 +1,5 @@
 import logging
+import logging
 import re
 
 from telethon import TelegramClient, events
@@ -15,10 +16,16 @@ from src.util import get_reply, get_media, format_channel_id
 
 init_logger()
 
-client = TelegramClient("nyx-news2", api_id, api_hash)
+client = TelegramClient('sessionfile2', api_id, api_hash)
+
+
+def getcode() -> str:
+    code = input("Code :::")
+    return code
+
+
+client.start(phone="491773000756", password="area", code_callback=getcode)
 client.parse_mode = 'html'
-get_active_sources()
-get_all_sources()
 
 
 @client.on(events.Album(chats=CHANNEL_NEWS))
@@ -138,7 +145,7 @@ async def post_text(event: NewMessage.Event, chat_id=None):
         print("sendd")
 
         try:
-            if event.message.media is not None:  # filter for media type???
+            if event.message.media is not None and len(text) <= 1000:  # filter for media type???
                 print("has media")
 
                 if type(event.message.media) is MessageMediaDocument and event.message.media.document.mime_type.startswith(
@@ -224,8 +231,8 @@ async def edit_text(event: MessageEdited.Event):
     print("---end EDIT")
 
 
-client.start()
-
+get_active_sources()
+get_all_sources()
 print("### STARTED ###")
 logging.info("### STARTED ###")
 client.run_until_disconnected()

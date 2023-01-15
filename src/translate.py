@@ -5,7 +5,7 @@ from deepl import QuotaExceededException, Translator
 
 from config import DEEPL
 from constant import TAG_TRAILING, HASHTAG, PLACEHOLDER, FLAG_EMOJI, TAG_EMPTY
-from src.input import sources, sources_full
+from src.input import sources_full
 
 translator = Translator(DEEPL)
 
@@ -36,6 +36,13 @@ def debloat(event, chat_id=None):
 def sanitize(text: str):
     cleaned_empty = re.sub(TAG_EMPTY, '', text)
 
+    cleaned_empty = cleaned_empty.replace("<strong>", "<b>").replace("</strong>", "</b>") \
+        .replace("<em>", "<i>").replace("</em>", "</i>") \
+        .replace("<b>", "").replace("</b>", "") \
+        .replace("<u>", "").replace("</u>", "") \
+        .replace("<i>", "").replace("</i>", "") \
+        .replace("СВО", "„специальная военная операция“")
+
     g = re.search(TAG_TRAILING, cleaned_empty)
     print("GROUP::::::::::::::::::::", cleaned_empty, g)
 
@@ -47,32 +54,36 @@ def sanitize(text: str):
     sub_text = re.sub(HASHTAG, '', cleaned_empty)
     print("subbbbbbbb ", sub_text)
 
-    sub_text = sub_text.replace("<strong>", "<b>").replace("</strong>", "</b>").replace("<em>", "<i>").replace("</em>",
-                                                                                                               "</i>")
     print("sanitized ::::", sub_text)
-    return sub_text
+
+    return sub_text.rstrip()
 
 
-def translate_text(text:str):
+def translate_text(text: str):
     filtered = re.findall(FLAG_EMOJI, text)
-    text_to_translate = re.sub(FLAG_EMOJI, PLACEHOLDER, text)
-
+    text_to_translate = re.sub(FLAG_EMOJI, PLACEHOLDER, text).replace("\n", "</body>")
     try:
-        translated_text= translator.translate_text(text_to_translate, target_lang="de", tag_handling="html",
-                                         preserve_formatting=True).text
+        translated_text = translator.translate_text(text_to_translate,
+                                                    target_lang="de",
+                                                    tag_handling="html",
+                                                    #    split_sentences=SplitSentences.ALL,
+                                                    #      preserve_formatting=True
+                                                    ).text
 
     except QuotaExceededException:
         print("--- Quota exceeded ---")
-        translated_text =GoogleTranslator(target="de").translate(text=text_to_translate)
+        translated_text = GoogleTranslator(target="de").translate(text=text_to_translate)
     except Exception as e:
         print("--- other error translating --- ", e)
 
-        translated_text= GoogleTranslator(target="de").translate(text=text_to_translate)
+        translated_text = GoogleTranslator(target="de").translate(text=text_to_translate)
+
+    print("filtered ------------------\n\n------------", filtered, text_to_translate, translated_text)
 
     for emoji in filtered:
         translated_text = re.sub(PLACEHOLDER, emoji, translated_text, 1)
 
-    return translated_text
+    return translated_text.replace("</body>", "\n").replace("< /body>", "\n\n").replace("< body>", "\n\n")
 
 
 async def translate(event, chat_id=None):

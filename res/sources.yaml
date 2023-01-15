@@ -168,7 +168,10 @@
   name: AAF
   username: military_az
   bloat:
-    - '<a href="http://t.me/military_az"> <strong> AАF </strong> </a> <strong> | </strong> <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> <strong> Чат24/7 </strong> </a> <strong> | </strong> <a href="https://t.me/AslanAslanoff"> <strong> Сотрудничество </strong> </a>'
+    - 'AАF | Чат24/7 |Сотрудничество'
+    - '<a href="http://t.me/military_az"><strong>AАF</strong></a><strong> | </strong><a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"><strong>Чат24/7</strong></a><strong> |</strong><a href="https://t.me/geronimo_aaf"><strong>Сотрудничество</strong>'
+    - '<a href="http://t.me/military_az">AАF</a> | <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd">Чат24/7</a> |<a href="https://t.me/geronimo_aaf">Сотрудничество</a>'
+    - '<a href="http://t.me/military_az"> AАF </a> | <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> Чат24/7 </a> | <a href="https://t.me/AslanAslanoff"> Сотрудничество </a>'
   bias: 🇦🇿
 
   #1111348665:
@@ -189,4 +192,5 @@
 1883849128:
   name: 'Suriyakmaps'
   username: 'Suriyak_maps'
+  bias: 🇷🇺
 

@@ -30,5 +30,9 @@ def get_media(event):
     else:
         return None
 
-def format_channel_id(channel_id:int):
-    return int("-100"+ str(channel_id))
+
+def format_channel_id(channel_id: int) -> int:
+    return int("-100" + str(channel_id))
+
+
+
