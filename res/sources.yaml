@@ -41,6 +41,7 @@
   name: DeepState
   bloat:
     - '<a href="https://deepstateua.shop/">Магазин</a>🛑<a href="https://deepstateua.com/">Блог</a>🛑<a href="https://deepstatemap.live/">Мапа</a>🛑<a href="http://t.me/newsDeepStatebot">Написати нам</a>🛑<a href="https://help.deepstateua.com/">Звіти</a>🛑<a href="https://t.me/help_deepstateua">ЗСУHelp</a>'
+    - '🕶 Нагадуємо підписатися на наш волонтерський канал @help_deepstateua.\n\n💬У випадку неточностей на карті, ви можете нам повідомити через бот @newsdeepstatebot.'
   username: DeepStateUA
   bias: 🇺🇦
 1201459971:

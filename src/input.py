@@ -43,6 +43,7 @@ def get_active_sources():
             source_ids.append(channel_id)
             sources[channel_id] = Source.from_yaml(v)
 
+
 def get_all_sources():
     with open('res/sources.yaml', 'rb') as stream:
         data_loaded = yaml.load(stream, Loader=yaml.Loader)
@@ -51,6 +52,7 @@ def get_all_sources():
         for k, v in data_loaded.items():
             channel_id = format_channel_id(k)
             sources_full[channel_id] = Source.from_yaml(v)
+
 
 def insert_sources():
     with open('res/sources.yaml', 'rb') as stream:
