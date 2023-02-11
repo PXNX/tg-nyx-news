@@ -146,7 +146,6 @@ nyxnews.csv
 /nx1.session
 /nyx-dnews3.session
 /nyx-news3.session
-/sessionfile.session
-/sessionfile2.session
 /tesst.session
 /test.session
+/sessionfile*.session
