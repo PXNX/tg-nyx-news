@@ -61,7 +61,7 @@ def sanitize(text: str):
 
 def translate_text(text: str):
     filtered = re.findall(FLAG_EMOJI, text)
-    text_to_translate = re.sub(FLAG_EMOJI, PLACEHOLDER, text).replace("\n\n", "</body>")
+    text_to_translate = re.sub(FLAG_EMOJI, PLACEHOLDER, text).replace("\n", "</body>")
     try:
         translated_text = translator.translate_text(text_to_translate,
                                                     target_lang="de",
@@ -83,7 +83,8 @@ def translate_text(text: str):
     for emoji in filtered:
         translated_text = re.sub(PLACEHOLDER, emoji, translated_text, 1)
 
-    return translated_text.replace("</body>", "\n").replace("< /body>", "\n\n").replace("< body>", "\n\n").replace("body>","\n\n")
+    return translated_text.replace("</body>", "\n").replace("< /body>", "\n\n")\
+        .replace("< body>", "\n\n").replace("body>","\n\n")
 
 
 async def translate(event, chat_id=None):

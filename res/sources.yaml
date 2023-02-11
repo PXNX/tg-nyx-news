@@ -44,10 +44,10 @@
     - '🕶 Нагадуємо підписатися на наш волонтерський канал @help_deepstateua.\n\n💬У випадку неточностей на карті, ви можете нам повідомити через бот @newsdeepstatebot.'
   username: DeepStateUA
   bias: 🇺🇦
-1201459971:
-  name: Rysnya
-  username: rysnya200
-  bias: 🇺🇦
+#1201459971:
+#  name: Rysnya
+#  username: rysnya200
+#  bias: 🇺🇦
 #1470200990:
 #  name: Suspilne
 #  username: suspilnenews
@@ -77,6 +77,16 @@
   name: 'INSIDER KYIV'
   invite: 'JUhC6-fk7QNlMDRi'
   display: 'Insider Kyiv'
+  bias: 🇺🇦
+1669110938:
+  name: 'UNITED24Media'
+  username: 'United24media'
+  display: 'United24'
+  bias: 🇺🇦
+1519483747:
+  name: 'NEWS |🔥WAR🔥'
+  invite: 'hcD79awRA08sxN2Rk'
+  display: 'War World'
   bias: 🇺🇦
 
   # Russian
@@ -142,10 +152,10 @@
   #  bloat:
   #   - https://t.me/MOPOZaRodinu
 #  bias: 🇷🇺
-1627480627:
-  name: Cyberspec News
-  username: CyberspecNews
-  bias: 🇷🇺
+#1627480627:
+ # name: Cyberspec News
+ # username: CyberspecNews
+ # bias: 🇷🇺
 1218410161:
   name: Dambiev
   username: ChDambiev
@@ -175,11 +185,11 @@
     - '<a href="http://t.me/military_az"> AАF </a> | <a href="https://t.me/joinchat/TCl5uh3G0Mhx42Kd"> Чат24/7 </a> | <a href="https://t.me/AslanAslanoff"> Сотрудничество </a>'
   bias: 🇦🇿
 
-  #1111348665:
-  #  name: Милитарист
-  #  display: Militarist
-  #  username: infantmilitario
-  #  bias: 🇷🇺
+1111348665:
+  name: Милитарист
+  display: Militarist
+  username: infantmilitario
+  bias: 🇷🇺
 
   #1251299061:
   #  name: 'SouthFront: Analysis & Intelligence (Ukraine, Syria, Yemen)'

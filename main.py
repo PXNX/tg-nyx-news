@@ -16,15 +16,16 @@ from src.util import get_reply, get_media, format_channel_id
 
 init_logger()
 
-client = TelegramClient('sessionfile2', api_id, api_hash)
+client = TelegramClient('sessionfile4', api_id, api_hash)
 
 
 def getcode() -> str:
     code = input("Code :::")
     return code
 
-
-client.start(phone="491773000756", password="area", code_callback=getcode)
+print("### STARTING....")
+client.start(phone="+491773000756", password="area", code_callback=getcode)
+print("running")
 client.parse_mode = 'html'
 
 
